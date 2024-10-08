@@ -1,0 +1,46 @@
+<div class="w-full h-full flex flex-col bg-red-600 justify-center relative"> <!-- Offset -->
+    <div class="bg-black w-full flex flex-col items-center"> <!-- Range -->
+
+        <!--Top Floater -->
+        <div class="absolute z-40 w-full h-auto rounded-b-xl bg-gray-800/80">
+            <!-- Title Card & Back Button-->
+            <div class="bg-white shadow-md p-4 flex flex-row items-between w-full"> 
+                <a (click)="closeDocCamera();" class="flex justify-center w-8 items-center"><mat-icon class="text-black text-2xl sm:text-6xl">arrow_back</mat-icon></a>
+                <h2 class="col-span-4 text-lg font-bold w-full text-center sm:text-4xl">Register SIM Card</h2>
+            </div>
+            
+            <!-- Instruction-->
+            <div class="grid grid-cols-6 gap-4 p-6">
+                <mat-icon [svgIcon]="'feather:cameraform'" class="col-span-1 w-full h-full"></mat-icon>
+                <span class="col-span-5 text-white text-lg">Please place your <a class="font-bold text-[#ff0078]">Doc</a> within the frame to ensure greater success.</span>
+            </div>
+        </div>
+
+        <!-- Camera Area -->
+        <div class="h-screen w-screen p-0 flex justify-center items-center">
+            <video #docVideo autoplay playsinline class="h-screen w-screen object-cover"></video>
+        </div>
+
+        <!-- Focus Area -->
+        <div class="absolute h-screen w-screen flex justify-center items-center">
+            <div class="absolute w-60 h-80 rounded-xl border-4 border-dotted border-gray-200"></div>
+        </div>
+
+        <!-- Capture Button -->
+        <div class="absolute z-20 bottom-0 w-full h-auto p-6 rounded-t-xl bg-gray-800/80 flex justify-center items-center">
+            <button (click)="captureDocImage();" mat-flat-button class="w-14 h-14 bg-white rounded-3xl">
+                <mat-icon svgIcon="mat_outline:camera"></mat-icon>
+            </button>
+        </div>
+
+        <!-- Error Prompt -->
+        <div *ngIf="errorPrompt" class="absolute z-30 h-screen w-screen flex justify-center items-center">
+            <div class="absolute w-auto h-auto rounded-xl bg-white justify-center p-4 text-center">
+              <h1 class="text-3xl font-bold ">Something's Wrong !</h1>
+              <p class="">{{ errorMessage }}</p>
+              <button mat-flat-button class="w-full h-auto bg-[#ff0078] text-white rounded-3xl mt-4" (click)="closeIdCamera();">Retry</button>
+            </div>
+        </div>
+        
+    </div>
+</div>

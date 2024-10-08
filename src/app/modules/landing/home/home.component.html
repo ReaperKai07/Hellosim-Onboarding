@@ -1,0 +1,94 @@
+<div class="w-full flex bg-red-600 justify-center"> <!-- Offset -->
+    <div class="bg-white w-full flex flex-col items-center"> <!-- Range -->
+        
+        <!-- Title Card & Back -->
+        <div class="bg-white shadow-md p-4 flex flex-row items-between w-full"> 
+            <a href="/" class="flex justify-center w-8 items-center"><mat-icon class="text-black text-2xl sm:text-6xl">arrow_back</mat-icon></a>
+            <h2 class="col-span-4 text-lg font-bold w-full text-center sm:text-4xl">Register SIM Card</h2>
+        </div>
+
+        <!-- Page Content -->
+        <div class="container mx-4 p-4 sm:p-12">
+            <h1 class="text-lg font-bold sm:text-4xl">Follow this simple steps</h1>
+            <p class="text-sm sm:text-2xl">It'll only take a few minutes.</p>
+
+            <!-- Tutorial Card-->
+            <div class="w-full mt-4 sm:mt-8 mb-4 sm:mb-16 rounded-md bg-white border border-gray-300 shadow overflow-hidden">
+                
+                <!-- Preparation Section-->
+                <div class="bg-[#ffeaf4] pb-4 sm:pb-6">
+                    <div class="p-4"> 
+                        <h2 class="text-sm f16t-bold sm:text-lg">Please have these prepared:</h2>
+                    </div>
+                    <div class="items-center px-6 sm:px-12 text-sm sm:text-xl">
+                        <div class="flex justify-between">
+                            <p>1. MyKad/IC, Passport or Visa and Supporting Documents</p>
+                            <mat-icon [svgIcon]="'feather:paper'" class="sm:w-10 sm:h-10"></mat-icon>
+                          </div>
+                        <hr class="my-4 sm:my-6 border-t border-gray-300"> <!-- Divider-->
+
+                        <div class="flex justify-between">
+                            <p>2. Good Lighting Condition</p>
+                            <mat-icon [svgIcon]="'feather:light'" class="sm:w-10 sm:h-10"></mat-icon>
+                        </div>
+                        <hr class="my-4 sm:my-6 border-t border-gray-300"> <!-- Divider-->
+
+                        <div class="flex justify-between">
+                            <p>3. Good Internet/Wifi Connection</p>
+                            <mat-icon [svgIcon]="'feather:wifi1'" class="sm:w-10 sm:h-10"></mat-icon>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Instruction Section-->
+                <div class="items-center px-6 sm:px-12 py-4 sm:py-4 mt-4 sm:mt-8 text-sm sm:text-xl">
+                    <div class="flex justify-between mb-4 sm:mb-8">
+                        <mat-icon [svgIcon]="'feather:numOne'" class="sm:w-10 sm:h-10"></mat-icon>
+                        <p>1. Take a photo of your MyKad.</p>
+                        <mat-icon [svgIcon]="'feather:mykad'" class="sm:w-10 sm:h-10"></mat-icon>
+                    </div>
+
+                    <div class="flex justify-between mb-4 sm:mb-8">
+                        <p>2. Confirm your details.</p>
+                        <mat-icon [svgIcon]="'feather:detail'" class="sm:w-10 sm:h-10"></mat-icon>
+                    </div>
+
+                    <div class="flex justify-between  mb-4 sm:mb-8">
+                        <p>3. Take a selfie.</p>
+                        <mat-icon [svgIcon]="'feather:selfie'" class="sm:w-10 sm:h-10"></mat-icon>
+                    </div>
+
+                    <div class="flex justify-between mb-4 sm:mb-8">
+                        <p>4. Submit your profile for processing.</p>
+                        <mat-icon [svgIcon]="'feather:profile'" class="sm:w-10 sm:h-10"></mat-icon>
+                    </div>
+
+                    <div class="flex justify-between mb-4 sm:mb-8">
+                        <p>5. Select phone number & place order.</p>
+                        <mat-icon [svgIcon]="'feather:sim'" class="sm:w-10 sm:h-10"></mat-icon>
+                    </div>
+                </div>       
+            </div>
+
+            <!-- Terms & Conditions-->
+            <div class="text-center text-xs sm:text-lg px-4 sm:px-12 pb-4 sm:pb-12">
+                <p>Your information is safe with us. By proceeding, you acknowledge that you have read and accepted the HelloSIM
+                    <!--Privacy Note Link-->
+                    <a href="#" class="font-bold text-[#ff0078]"> Privacy Notice</a> and 
+                    <!--Terms & Conditions Link-->
+                    <a href="#" class="font-bold text-[#ff0078]">Terms & Conditions</a> and you hereby consent
+                to HelloSIM collection, processing and using your personal data.</p>
+            </div>
+
+            <!-- Start Now Button-->
+            <div class="">
+                <button mat-button [routerLink]="['/scanned-form']" class="w-full rounded-md bg-[#ff0078] text-white font-semibold py-5 sm:py-10">
+                    <div class="w-full flex flex-row items-center">
+                        <mat-icon svgIcon="camera" class="text-white icon-size-6 sm:icon-size-12"></mat-icon>
+                        <p class="pl-1 ms:pl-2 text-md sm:text-4xl">Start Now</p>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

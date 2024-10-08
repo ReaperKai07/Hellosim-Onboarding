@@ -1,0 +1,161 @@
+<div [ngClass]="{'hidden': idCameraOpen || docCameraOpen}" class="w-full flex bg-red-600 justify-center relative"> <!-- Offset -->
+    <div class="bg-[#ffeaf4] w-full flex flex-col items-center"> <!-- Range -->
+
+        <!-- Title Card & Back Button-->
+        <div class="bg-white shadow-md p-4 flex flex-row items-between w-full"> 
+            <a href="/" class="flex justify-center w-8 items-center"><mat-icon class="text-black text-2xl sm:text-6xl">arrow_back</mat-icon></a>
+            <h2 class="col-span-4 text-lg font-bold w-full text-center sm:text-4xl">Register SIM Card</h2>
+        </div>
+
+        <!-- Breadcrumbs -->
+        <div class="h-30 sm:h-60 flex items-center text-xl">BREADCRUMB HERE</div>
+        
+        <!-- Page Content -->
+        <div class="w-full h-full p-4 bg-white">
+            <!-- Form Title -->
+            <div class="grid grid-cols-4">
+                <h2 class="text-md sm:text-2xl font-bold col-span-3 flex justify-start pb-6">INSERT ADDITIONAL DETAILS</h2>
+            </div>
+            
+            <!-- Information Form Start -->
+            <div class="flex flex-col w-full pb-6">
+                <form class="grid grid-cols-4 gap-2">
+                    
+                    <!-- Title -->
+                    <div class="w-full flex flex-row col-span-4">
+                        <mat-icon [svgIcon]="'feather:infoicon'"></mat-icon><p class="pl-2 sm:pl-4 sm:text-xl">My Information</p>
+                    </div>
+                    <hr class="col-span-4 m-0 border-t border-black"> <!-- Divider-->
+
+                    <!-- Name -->
+                    <mat-form-field class="w-full fuse-mat-dense col-span-4 sm:text-xl" [subscriptSizing]="'dynamic'">
+                        <input matInput matInput="'name'" type="text" value="Ali bin Abu" pattern="[A-Z a-z]*" disabled>
+                    </mat-form-field>
+
+                    <!-- ID Type -->
+                    <mat-form-field class="w-full fuse-mat-dense col-span-2 sm:text-xl" [subscriptSizing]="'dynamic'">
+                        <mat-label>ID Type</mat-label>
+                        <input matInput matInput="'idtype'" type="text" value="IC" pattern="[A-Z a-z]*" disabled>
+                    </mat-form-field>
+
+                    <!-- ID Number -->
+                    <mat-form-field class="w-full fuse-mat-dense col-span-2 sm:text-xl" [subscriptSizing]="'dynamic'">
+                        <mat-label>ID Number</mat-label>
+                        <input matInput matInput="'idbnum'" type="text" value="123456-67-7890" pattern="[0-9]*" disabled>
+                    </mat-form-field>
+
+                    <!-- Birth Date -->
+                    <mat-form-field class="w-full fuse-mat-dense col-span-2 sm:text-xl" [subscriptSizing]="'dynamic'">
+                        <mat-label>Birth Date</mat-label>
+                        <input matInput [matDatepicker]="picker" matInput="'birthDate'" value="2024-10-02" disabled>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+
+                    <!-- Nationality -->
+                    <mat-form-field class="w-full fuse-mat-dense col-span-2 sm:text-xl" [subscriptSizing]="'dynamic'">
+                        <mat-label>Nationality</mat-label>
+                        <input matInput matInput="'nationality'" type="text" value="Malaysia" pattern="[A-Z a-z]*" disabled>
+                    </mat-form-field>
+
+                </form>
+            </div>
+
+            <!-- Address Form Start -->
+            <div class="flex flex-col w-full">
+                <form class="grid grid-cols-4 gap-2 pb-6">
+                    
+                    <!-- Title -->
+                    <div class="w-full flex flex-row col-span-4">
+                        <mat-icon [svgIcon]="'feather:adrsicon'"></mat-icon><p class="pl-2 sm:pl-4 sm:text-xl">My Address</p>
+                    </div>
+                    <hr class="col-span-4 m-0 border-t border-black"> <!-- Divider-->
+
+                    <!-- Address -->
+                    <mat-form-field class="w-full fuse-mat-dense col-span-4 sm:text-xl" [subscriptSizing]="'dynamic'">
+                        <mat-label>Address</mat-label>
+                        <textarea matInput matInput="'address'" rows="2" value="Rumah Tepi Longkang, Belakang Stesen KTM, Selangor"></textarea>
+                    </mat-form-field>
+
+                    <!-- Postcode -->
+                    <mat-form-field class="w-full fuse-mat-dense col-span-2 sm:text-xl" [subscriptSizing]="'dynamic'">
+                        <mat-label>Postcode</mat-label>
+                        <input matInput matInput="'postcode'" type="text" pattern="[0-9]*" value="99999">
+                    </mat-form-field>
+
+                    <!-- City -->
+                    <mat-form-field class="w-full fuse-mat-dense col-span-2 sm:text-xl" [subscriptSizing]="'dynamic'">
+                        <mat-label>City</mat-label>
+                        <input matInput matInput="'city'" value="Bandar" type="text">
+                    </mat-form-field>
+
+                    <!-- State -->
+                    <mat-form-field class="w-full fuse-mat-dense col-span-2 sm:text-xl" [subscriptSizing]="'dynamic'">
+                        <mat-label>State</mat-label>
+                        <input matInput matInput="'state'" type="text" value="Negeri" pattern="[A-Z a-z]*">
+                    </mat-form-field>
+
+                    <!-- Race -->
+                    <mat-form-field class="w-full fuse-mat-dense col-span-2 sm:text-xl" [subscriptSizing]="'dynamic'">
+                        <mat-label>Race</mat-label>
+                        <input matInput matInput="'race'" value="Bangsa" type="text" pattern="[A-Z a-z]*">
+                    </mat-form-field>
+
+                </form>
+            </div>
+
+            <!-- Contact Form Start -->
+            <div class="flex flex-col w-full pb-6">
+                <form class="grid grid-cols-4 gap-2">
+                    
+                    <!-- Title -->
+                    <div class="w-full flex flex-row col-span-4">
+                        <mat-icon [svgIcon]="'feather:cntcticon'"></mat-icon><p class="pl-2 sm:pl-4 sm:text-xl">Emergency Contact</p>
+                    </div>
+                    <hr class="col-span-4 m-0 border-t border-black"> <!-- Divider-->
+
+                    <!-- Contact Number -->
+                    <mat-form-field class="w-full fuse-mat-dense col-span-4" [subscriptSizing]="'dynamic'">
+                        <mat-label>Alternate contact number</mat-label>
+                        <input matInput matInput="'recontact'" type="text" value="019-999-9999" pattern="[0-9]*">
+                    </mat-form-field>
+
+                </form>
+            </div>
+
+            <!-- Re-Confirm -->
+            <div class=" py-2 px-10 text-center text-xs"> <!-- sm:text-base -->
+                <p>Make sure all the details collected in the form is correct.</p>
+            </div>
+
+            <!-- Confirm Button-->
+            <div class="pt-4">                
+                <button mat-flat-button [routerLink]="['/']"class="w-full rounded-md bg-[#ff0078] color: white; font-semibold">
+                     <div class="w-full flex flex-row items-center tracking-tighter text-white">
+                        <mat-icon [svgIcon]="'feather:thumbs-up'"></mat-icon><p class="pl-1">Confirm</p>
+                    </div>
+                </button>
+            </div>
+
+            <!-- Document Button-->
+            <div class="pt-4">                
+                <button mat-flat-button (click)="docCameraOpen=true" class="w-full rounded-md bg-[#ff0078] color: white; font-semibold">
+                     <div class="w-full flex flex-row items-center tracking-tighter text-white">
+                        <mat-icon [svgIcon]="'feather:paperclip'"></mat-icon><p class="pl-1">Take Document Picture</p>
+                    </div>
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@if(idCameraOpen){
+    <!-- Capture ID -->
+    <id-scanner (idCameraOpened)="noticeId($event)" class="absolute inset-0 w-full h-full"></id-scanner>
+}
+
+@if(docCameraOpen){
+    <!-- Capture Doc  -->
+    <doc-scanner (docCameraOpened)="noticeDoc($event)" class="absolute inset-0 w-full h-full"></doc-scanner>
+}
