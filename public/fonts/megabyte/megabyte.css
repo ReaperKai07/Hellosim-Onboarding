@@ -1,0 +1,71 @@
+/* Megabyte black */
+@font-face {
+    font-family: "Megabyte";
+    src: url("/fonts/megabyte/MegabyteBlack.otf") format("opentype");
+    font-weight: 900;
+    font-style: normal;
+}
+
+/* Megabyte black italic */
+@font-face {
+    font-family: "Megabyte";
+    src: url("/fonts/megabyte/MegabyteBlackItalic.otf") format("opentype");
+    font-weight: 900;
+    font-style: italic;
+}
+
+/* Megabyte bold */
+@font-face {
+    font-family: "Megabyte";
+    src: url("/fonts/megabyte/MegabyteBold.otf") format("opentype");
+    font-weight: 700;
+    font-style: normal;
+}
+
+/* Megabyte bold italic */
+@font-face {
+    font-family: "Megabyte";
+    src: url("/fonts/megabyte/MegabyteBoldItalic.otf") format("opentype");
+    font-weight: 700;
+    font-style: italic;
+}
+
+/* Megabyte medium */
+@font-face {
+    font-family: "Megabyte";
+    src: url("/fonts/megabyte/MegabyteMedium.otf") format("opentype");
+    font-weight: 500;
+    font-style: normal;
+}
+
+/* Megabyte medium italic */
+@font-face {
+    font-family: "Megabyte";
+    src: url("/fonts/megabyte/MegabyteMediumItalic.otf") format("opentype");
+    font-weight: 500;
+    font-style: italic;
+}
+
+/* Megabyte regular */
+@font-face {
+    font-family: "Megabyte";
+    src: url("/fonts/megabyte/MegabyteRegular.otf") format("opentype");
+    font-weight: 400;
+    font-style: normal;
+}
+
+/* Megabyte regular italic */
+@font-face {
+    font-family: "Megabyte";
+    src: url("/fonts/megabyte/MegabyteRegularItalic.otf") format("opentype");
+    font-weight: 400;
+    font-style: italic;
+}
+
+/* Megabyte light */
+@font-face {
+    font-family: "Megabyte";
+    src: url("/fonts/megabyte/MegabyteLight.otf") format("opentype");
+    font-weight: 300;
+    font-style: normal;
+}
