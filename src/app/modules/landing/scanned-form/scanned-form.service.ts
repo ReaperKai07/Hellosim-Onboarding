@@ -34,12 +34,14 @@ export class OCRService {
         let accessKey = '205828971096c23669005fc9b7b69994997ca18ac0c4f5947dd4b9cce4d33c63';
 
         const header = {
-            headers: new HttpHeaders().set(
-                'Authorization', `${accessKey}`,),
+            headers: new HttpHeaders()
+    
+              .set('Authorization', `${accessKey}`),
+          
             params: {
-                kyc_type: type,
+              kyc_type: type,
             },
-        };
+          };
 
         // Delete empty value
         Object.keys(header.params).forEach((key) => {
@@ -62,7 +64,6 @@ export class OCRService {
                 map((response) => {
 
                     // let result = information.responses[0];
-
                     return response;
                 })
             );
