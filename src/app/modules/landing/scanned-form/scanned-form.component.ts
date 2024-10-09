@@ -40,7 +40,7 @@ import { WebcamModule } from 'ngx-webcam';
 export class LandingScannedFormComponent {
   
   //Camera open by default
-  idCameraOpen: boolean = true; //True instant-open ID camera when come into page
+  idCameraOpen: boolean = false; //True instant-open ID camera when come into page
   docCameraOpen: boolean = false;
 
   noticeId($event) {
