@@ -1,8 +1,10 @@
-import { Component, OnInit, AfterViewInit, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, Output, EventEmitter, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { WebcamModule} from 'ngx-webcam';
 import { NgStyle, CommonModule} from '@angular/common'
+import { OCRService } from '../scanned-form.service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'id-scanner',
@@ -21,8 +23,14 @@ export class IdScannerComponent implements AfterViewInit {
   @ViewChild('idVideo') idVideoElement;
   @Output() idCameraOpened = new EventEmitter<boolean>();
 
+  private _ocrService = inject(OCRService)
+
   errorPrompt = false;
   errorMessage = '';
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Lifecycle hooks
+    // -----------------------------------------------------------------------------------------------------
 
   ngAfterViewInit() {
     // Check if the camera is available
@@ -49,6 +57,10 @@ export class IdScannerComponent implements AfterViewInit {
     });
   }
 
+  // -----------------------------------------------------------------------------------------------------
+  // @ Public methods
+  // -----------------------------------------------------------------------------------------------------
+
   // Capture ID Image
   captureIdImage(){
     const canvas = document.createElement('canvas');
@@ -63,6 +75,7 @@ export class IdScannerComponent implements AfterViewInit {
 
     // Close camera when image accepted
     if(idImageData){
+      this.retrieveIdentityImageId(idImageData)
       this.closeIdCamera();
     } else {
       console.warn('Should Display Error')
@@ -78,8 +91,56 @@ export class IdScannerComponent implements AfterViewInit {
 
   // Trigger Error
   setError(message: string): void {
-    this.errorPrompt = true;
-    this.errorMessage = message;
+    setTimeout(() => {
+      this.errorPrompt = true;
+      this.errorMessage = message;
+    }, 0);
   }
+  
+
+  convertBase64ToFormData(base64: string) {
+    // Split base64 header [ data:image/png;base64, ] iVBORw0KGgo
+    const encodedBase64 = base64.split(',')[1];
+    // Convert base64 to a Blob
+    const byteString = atob(encodedBase64);
+    const arrayBuffer = new ArrayBuffer(byteString.length);
+    const int8Array = new Uint8Array(arrayBuffer);
+
+    for (let i = 0; i < byteString.length; i++) {
+        int8Array[i] = byteString.charCodeAt(i);
+    }
+
+    let blob = new Blob([int8Array], { type: 'application/octet-stream' });
+    // Append the Blob to FormData
+    const formData = new FormData();
+
+    formData.append(
+        'file',
+        blob,
+        `IMAGE_TEST.jpg`,
+    );
+
+    return formData;
+  }
+
+  async retrieveIdentityImageId(base64:any) {
+    try {
+        const formData = this.convertBase64ToFormData(
+          base64,
+        );
+        const imageId = this._ocrService.postOCR('mykad',formData);
+        const response = await firstValueFrom(imageId);
+
+        console.log("response", response);
+        
+        return response;
+    } catch (error) {
+        // Handle the error here
+        console.error('error')
+        // Optionally, rethrow the error or return a default value
+        throw error;
+        // or return null; // depending on how you want to handle the failure
+    }
+}
 
 }
