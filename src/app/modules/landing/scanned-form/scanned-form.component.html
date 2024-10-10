@@ -15,6 +15,12 @@
             <!-- Form Title -->
             <div class="grid grid-cols-4">
                 <h2 class="text-lg sm:text-4xl font-bold col-span-3 flex justify-start pb-6">INSERT ADDITIONAL DETAILS</h2>
+                <!--<h2 class="text-lg sm:text-4xl font-bold col-span-1 flex justify-end pb-6 text-[#ff0078]">Retake</h2>-->
+                <button mat-flat-button (click)="docCameraOpen=true" class="col-span-1 w-auto h-auto rounded-full bg-[#ff0078] color: white; font-semibold py-5 sm:py-10">
+                     <div class="w-full flex flex-row items-center tracking-tighter text-white text-center">
+                        <p class="pl-1 ms:pl-2 text-sm sm:text-3xl">Retake ID</p>
+                    </div>
+                </button>
             </div>
             
             <!-- Information Form Start -->
@@ -132,7 +138,7 @@
 
             <!-- Confirm Button-->
             <div class="pt-4">                
-                <button mat-flat-button [routerLink]="['/']"class="w-full rounded-md sm:rounded-xl bg-[#ff0078] color: white; font-semibold py-5 sm:py-10">
+                <button mat-flat-button [routerLink]="['/user-consent']"class="w-full rounded-md sm:rounded-xl bg-[#ff0078] color: white; font-semibold py-5 sm:py-10">
                      <div class="w-full flex flex-row items-center tracking-tighter text-white">
                         <mat-icon [svgIcon]="'feather:thumbs-up'" class="sm:h-10 sm:w-10"></mat-icon>
                         <p class="pl-1 ms:pl-2 text-md sm:text-4xl">Confirm</p>

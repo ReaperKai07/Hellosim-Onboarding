@@ -18,7 +18,7 @@
 
         <!-- Camera Area -->
         <div class="h-screen w-screen p-0 flex justify-center items-center">
-            <video #docVideo autoplay playsinline class="h-80 w-60 sm:h-160 sm:w-120 rounded-xl sm:rounded-3xl object-cover"></video>
+            <video #idVideo autoplay playsinline class="h-80 w-60 sm:h-160 sm:w-120 rounded-xl sm:rounded-3xl object-cover"></video>
         </div>
 
         <!-- Focus Area -->
@@ -35,10 +35,10 @@
 
         <!-- Error Prompt -->
         <div *ngIf="errorPrompt" class="absolute z-30 h-screen w-screen flex justify-center items-center">
-            <div class="absolute w-auto h-auto rounded-xl bg-white justify-center p-4 text-center">
-              <h1 class="text-3xl font-bold ">Something's Wrong !</h1>
-              <p class="">{{ errorMessage }}</p>
-              <button mat-flat-button class="w-full h-auto bg-[#ff0078] text-white rounded-3xl mt-4" (click)="closeIdCamera();">Retry</button>
+            <div class="absolute w-auto h-auto rounded-xl sm:rounded-3xl bg-white justify-center p-4 text-center">
+              <h1 class="text-3xl sm:text-6xl font-bold ">Something's Wrong !</h1>
+              <p class="text-md sm:text-xl pt-2 sm:pt-4">{{ errorMessage }}</p>
+              <button mat-flat-button class="w-full h-auto bg-[#ff0078] text-white rounded-3xl mt-4 text-lg sm:text-4xl sm:p-8" (click)="closeDocCamera();">Retry</button>
             </div>
         </div>
         

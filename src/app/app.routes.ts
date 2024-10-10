@@ -62,6 +62,7 @@ export const appRoutes: Route[] = [
         children: [
             {path: 'home', loadChildren: () => import('app/modules/landing/home/home.routes')},
             {path: 'scanned-form', loadChildren: () => import('app/modules/landing/scanned-form/scanned-form.routes')},
+            {path: 'user-consent', loadChildren: () => import('app/modules/landing/user-consent/user-consent.routes')},
         ]
     },
 
