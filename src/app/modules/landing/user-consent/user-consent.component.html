@@ -1,0 +1,62 @@
+<div class="w-full flex bg-red-600 justify-center relative"> <!-- Offset -->
+    <div class="bg-white w-full flex flex-col items-center"> <!-- Range -->
+
+        <!-- Title Card & Back -->
+        <div class="bg-white shadow-md p-4 flex flex-row items-between w-full"> 
+            <a href="/" class="flex justify-center w-8 items-center"><mat-icon class="text-black text-2xl sm:text-6xl">arrow_back</mat-icon></a>
+            <h2 class="col-span-4 text-lg font-bold w-full text-center sm:text-4xl">Register SIM Card</h2>
+        </div>
+
+        <!-- Page Content -->
+        <div class="w-screen h-screen px-8 py-4 sm:px-16 sm:py-8">
+            <!-- Title -->
+            <h1 class="text-lg font-bold sm:text-4xl">Declaration</h1>
+            <p class="text-sm sm:text-3xl pb-4 sm:pb-8">By updating my personal information through this portal, I hereby :</p>
+            
+            <!-- Checkbox-->
+            <div class="w-full rounded-md bg-white border border-gray-300 shadow overflow-hidden">
+                <div class="bg-[#ffeaf4] p-4 sm:p-8">
+                    <div class="w-full h-auto">
+                        <div class="flex mb-4 sm:mb-8">
+                            <span class="pr-2 sm:pr-4"><input type="checkbox" id="checkbox1" class="sm:w-10 sm:h-10 accent-[#ff0078]" [(ngModel)]="checkbox1.checked"></span>
+                            <label for="checkbox1" class="ml-2 text-sm sm:text-3xl">I hereby declare that the information provided by me herein is true and correct.</label>
+                        </div>
+
+                        <hr class="my-4 sm:my-6 border-t border-gray-300"> <!-- Divider-->
+
+                        <div class="flex mb-4 sm:mb-8">
+                            <span class="pr-2 sm:pr-4"><input type="checkbox" id="checkbox2" class="sm:w-10 sm:h-10 accent-[#ff0078]" [(ngModel)]="checkbox2.checked"></span>
+                            <label for="checkbox2" class="ml-2 text-sm sm:text-3xl">I have read and understood VALYOU SDN BHD (Company No:200701008529(766521-U))(hereinafter referred as "VALYOU")'s 
+                                <a href="#" class="font-bold text-[#ff0078] underline">Terms and Conditions</a> for HelloSIM Services and agree to be bound bt them.</label>
+                        </div>
+
+                        <hr class="my-4 sm:my-6 border-t border-gray-300"> <!-- Divider-->
+                        
+                        <div class="flex">
+                            <span class="pr-2 sm:pr-4"><input type="checkbox" id="checkbox3" class="sm:w-10 sm:h-10 accent-[#ff0078]" [(ngModel)]="checkbox3.checked"></span>
+                            <label for="checkbox3" class="ml-2 text-sm sm:text-3xl">I have read and agreed to VALYPU's 
+                                <a href="#" class="font-bold text-[#ff0078] underline">Privacy Notice</a>. I hereby give my explicit consent to VALYOU to collect, process and/or disclose my personal data as detailed in the 
+                                <a href="#" class="font-bold text-[#ff0078] underline">Privacy Notice</a>.</label>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                <div class="flex p-4 sm:p-8">
+                    <span class="pr-2 sm:pr-4"><input type="checkbox" id="checkbox4" class="sm:w-10 sm:h-10 accent-[#ff0078]"></span>
+                    <label for="checkbox4" class="ml-2 text-sm sm:text-3xl">(Optional) I hereby agree to receive promotional and marketing materials from VALYOU.</label>
+                </div>    
+                
+            </div>
+
+            <!-- Submit Button-->
+            <div class="pt-10">
+                <button mat-button [routerLink]="['/']" class="w-full rounded-md bg-[#ff0078] text-white font-semibold py-5 sm:py-10" [disabled]="!checkbox1.checked || !checkbox2.checked || !checkbox3.checked">
+                    <p class="text-md sm:text-4xl">Submit</p>
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+</div>

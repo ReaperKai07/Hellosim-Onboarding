@@ -45,6 +45,7 @@ export class OCRService {
 
         const header = {
             headers: new HttpHeaders().set('Authorization', `${accessKey}`),
+
             params: {
                 kyc_type: type,
             },
@@ -71,7 +72,6 @@ export class OCRService {
             .pipe(
                 map((response) => {
                     // let result = information.responses[0];
-
                     return response;
                 })
             );
