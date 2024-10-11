@@ -71,7 +71,9 @@ export class IdScannerComponent implements AfterViewInit {
 
         // Close camera when image accepted
         if (idImageData) {
-            // this.retrieveIDFromOcr(idImageData);
+            console.log('idImageData', idImageData);
+
+            this.retrieveIDFromOcr(idImageData);
 
             // try {
             //     const croppedImage =
@@ -80,15 +82,15 @@ export class IdScannerComponent implements AfterViewInit {
             // } catch (err) {
             //     console.log('Cropped err: ', err);
             // }
-            this.preprocessDocument(idImageData).then(
-                (croppedImage) => {
-                    console.log('Cropped Image: ', croppedImage);
-                    // Pass the cropped image to your OCR function here
-                },
-                (error) => {
-                    console.error('Error during preprocessing: ', error);
-                }
-            );
+            // this.preprocessDocument(idImageData).then(
+            //     (croppedImage) => {
+            //         console.log('Cropped Image: ', croppedImage);
+            //         // Pass the cropped image to your OCR function here
+            //     },
+            //     (error) => {
+            //         console.error('Error during preprocessing: ', error);
+            //     }
+            // );
 
             this.closeIdCamera();
         } else {
@@ -144,8 +146,6 @@ export class IdScannerComponent implements AfterViewInit {
             const formData = this.convertBase64ToFormData(base64);
             const imageId = this._ocrService.postOCR('mykad', formData);
             const response = await firstValueFrom(imageId);
-
-            console.log('response', response);
 
             return response;
         } catch (error) {
