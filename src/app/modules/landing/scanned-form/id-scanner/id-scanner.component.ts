@@ -28,9 +28,9 @@ export class IdScannerComponent implements AfterViewInit {
   errorPrompt = false;
   errorMessage = '';
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Lifecycle hooks
-    // -----------------------------------------------------------------------------------------------------
+  // -----------------------------------------------------------------------------------------------------
+  // @ Lifecycle hooks
+  // -----------------------------------------------------------------------------------------------------
 
   ngAfterViewInit() {
     // Check if the camera is available
@@ -139,7 +139,8 @@ export class IdScannerComponent implements AfterViewInit {
         console.error('error')
         // Optionally, rethrow the error or return a default value
         throw error;
-        // or return null; // depending on how you want to handle the failure
+        // or return null;
+        // depending on how you want to handle the failure
     }
 }
 

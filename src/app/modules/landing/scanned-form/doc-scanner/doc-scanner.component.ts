@@ -3,6 +3,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { WebcamModule} from 'ngx-webcam';
 import { NgStyle, CommonModule} from '@angular/common'
+import { OCRService } from '../scanned-form.service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'doc-scanner',
@@ -23,6 +25,10 @@ export class DocScannerComponent implements AfterViewInit {
 
   errorPrompt = false;
   errorMessage = '';
+
+  // -----------------------------------------------------------------------------------------------------
+  // @ Lifecycle hooks
+  // -----------------------------------------------------------------------------------------------------
 
   ngAfterViewInit() {
     // Check if the camera is available
@@ -49,6 +55,10 @@ export class DocScannerComponent implements AfterViewInit {
     });
   }
 
+  // -----------------------------------------------------------------------------------------------------
+  // @ Public methods
+  // -----------------------------------------------------------------------------------------------------
+
   // Capture Document Image
   captureDocImage(){
     const canvas = document.createElement('canvas');
@@ -67,6 +77,8 @@ export class DocScannerComponent implements AfterViewInit {
     } else {
       console.warn('Should Display Error')
     }
+
+    this.errorPrompt = false;
   }
 
   // Close Document Camera
@@ -76,7 +88,9 @@ export class DocScannerComponent implements AfterViewInit {
 
   // Trigger Error
   setError(message: string): void {
-    this.errorPrompt = true;
-    this.errorMessage = message;
+    setTimeout(() => {
+      this.errorPrompt = true;
+      this.errorMessage = message;
+    }, 0);
   }
 }
