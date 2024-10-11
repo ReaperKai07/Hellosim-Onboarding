@@ -1,9 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
-import { AuthUtils } from 'app/core/auth/auth.utils';
+import { Injectable, inject } from '@angular/core';
 import { UserService } from 'app/core/user/user.service';
-import { catchError, map, Observable, of, switchMap, throwError } from 'rxjs';
+import { Observable, map } from 'rxjs';
 
+// declare var cv: any; // OpenCV's cv object
 @Injectable({ providedIn: 'root' })
 export class OCRService {
     private _authenticated: boolean = false;
@@ -29,13 +29,22 @@ export class OCRService {
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
-    postOCR(type: 'ikad_student'|'ikad_employee'|'mytentera'|'mykad'|'passport'|'ocr', formData: FormData): Observable<any> {
+    postOCR(
+        type:
+            | 'ikad_student'
+            | 'ikad_employee'
+            | 'mytentera'
+            | 'mykad'
+            | 'passport'
+            | 'ocr',
+        formData: FormData
+    ): Observable<any> {
         let ekycUrl = 'https://kyc.e-kedai.my';
-        let accessKey = '205828971096c23669005fc9b7b69994997ca18ac0c4f5947dd4b9cce4d33c63';
+        let accessKey =
+            '205828971096c23669005fc9b7b69994997ca18ac0c4f5947dd4b9cce4d33c63';
 
         const header = {
-            headers: new HttpHeaders().set(
-                'Authorization', `${accessKey}`,),
+            headers: new HttpHeaders().set('Authorization', `${accessKey}`),
             params: {
                 kyc_type: type,
             },
@@ -45,7 +54,7 @@ export class OCRService {
         Object.keys(header.params).forEach((key) => {
             if (Array.isArray(header.params[key])) {
                 header.params[key] = header.params[key].filter(
-                    (element) => element !== null,
+                    (element) => element !== null
                 );
             }
             if (
@@ -57,16 +66,14 @@ export class OCRService {
             }
         });
 
-        return this._httpClient.post<any>(ekycUrl + '/kyc/' , formData, header)
+        return this._httpClient
+            .post<any>(ekycUrl + '/kyc/', formData, header)
             .pipe(
                 map((response) => {
-
                     // let result = information.responses[0];
 
                     return response;
                 })
             );
     }
-    
-
 }
