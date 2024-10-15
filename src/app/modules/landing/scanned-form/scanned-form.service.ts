@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { UserService } from 'app/core/user/user.service';
-import { Observable, map } from 'rxjs';
+import { Observable, catchError, map, of } from 'rxjs';
 
 // declare var cv: any; // OpenCV's cv object
 @Injectable({ providedIn: 'root' })
@@ -70,9 +70,13 @@ export class OCRService {
         return this._httpClient
             .post<any>(ekycUrl + '/kyc/', formData, header)
             .pipe(
+                catchError(() => {
+                    return of(null);
+                }),
                 map((response) => {
                     // let result = information.responses[0];
-                    return response;
+                    
+                    return response?.data;
                 })
             );
     }

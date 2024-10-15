@@ -25,7 +25,7 @@
             
             <!-- Information Form Start -->
             <div class="flex flex-col w-full pb-6">
-                <form class="grid grid-cols-4 gap-2">
+                <form [formGroup]="scannedForm" class="grid grid-cols-4 gap-2">
                     
                     <!-- Title -->
                     <div class="w-full flex flex-row col-span-4 items-center">
@@ -35,35 +35,35 @@
 
                     <!-- Name -->
                     <mat-form-field class="w-full fuse-mat-dense col-span-4 text-lg sm:text-3xl" [subscriptSizing]="'dynamic'">
-                        <mat-label class="text-md sm:text-xl">Full Name</mat-label>
-                        <input matInput matInput="'name'" class="p-1 sm:p-2" type="text" value="Ali bin Abu" pattern="[A-Z a-z]*" disabled>
+                        <mat-label class="text-md sm:text-xl mb-6">Full Name</mat-label>
+                        <input matInput  class="p-1 sm:p-2" type="text" [formControlName]="'name'" readonly pattern="[A-Z a-z]*">
                     </mat-form-field>
 
                     <!-- ID Type -->
                      
                     <mat-form-field class="w-full fuse-mat-dense col-span-2 text-lg sm:text-3xl" [subscriptSizing]="'dynamic'">
                         <mat-label class="test-md sm:text-xl">ID Type</mat-label>
-                        <input matInput matInput="'idtype'" class="p-1 sm:p-2" type="text" value="IC" pattern="[A-Z a-z]*" disabled>
+                        <input matInput class="p-1 sm:p-2" type="text" [formControlName]="'idType'" readonly pattern="[A-Z a-z]*">
                     </mat-form-field>
 
                     <!-- ID Number -->
                     <mat-form-field class="w-full fuse-mat-dense col-span-2 text-lg sm:text-3xl" [subscriptSizing]="'dynamic'">
                         <mat-label class="test-md sm:text-xl">ID Number</mat-label>
-                        <input matInput matInput="'idbnum'" class="p-1 sm:p-2" type="text" value="123456-67-7890" pattern="[0-9]*" disabled>
+                        <input matInput class="p-1 sm:p-2" type="text" [formControlName]="'idNumber'" pattern="[0-9]*">
                     </mat-form-field>
 
                     <!-- Birth Date -->
                     <mat-form-field class="w-full fuse-mat-dense col-span-2 text-lg sm:text-3xl" [subscriptSizing]="'dynamic'">
                         <mat-label class="test-md sm:text-xl">Birth Date</mat-label>
-                        <input matInput [matDatepicker]="picker" matInput="'birthDate'" class="p-1 sm:p-2" value="2024-10-02" disabled>
+                        <input matInput [matDatepicker]="picker" [formControlName]="'birth'" class="p-1 sm:p-2">
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
                     </mat-form-field>
 
-                    <!-- Nationality -->
+                    <!-- Nationality --> <!-- HARDCODE MALAYSIA -->
                     <mat-form-field class="w-full fuse-mat-dense col-span-2 text-lg sm:text-3xl" [subscriptSizing]="'dynamic'">
                         <mat-label class="test-md sm:text-xl">Nationality</mat-label>
-                        <input matInput matInput="'nationality'" class="p-1 sm:p-2" type="text" value="Malaysia" pattern="[A-Z a-z]*" disabled>
+                        <input matInput class="p-1 sm:p-2" type="text" [formControlName]="'nationality'" pattern="[A-Z a-z]*">
                     </mat-form-field>
 
                 </form>
@@ -71,7 +71,7 @@
 
             <!-- Address Form Start -->
             <div class="flex flex-col w-full">
-                <form class="grid grid-cols-4 gap-2 pb-6">
+                <form [formGroup]="scannedForm" class="grid grid-cols-4 gap-2 pb-6">
                     
                     <!-- Title -->
                     <div class="w-full flex flex-row col-span-4 items-center">
@@ -81,32 +81,26 @@
 
                     <!-- Address -->
                     <mat-form-field class="w-full fuse-mat-dense col-span-4 text-lg sm:text-3xl" [subscriptSizing]="'dynamic'">
-                        <mat-label  class="test-md sm:text-xl">Address</mat-label>
-                        <textarea matInput matInput="'address'" class="p-1 sm:p-2" rows="2" value="Rumah Tepi Longkang, Belakang Stesen KTM, Selangor"></textarea>
+                        <mat-label class="test-md sm:text-xl">Address</mat-label>
+                        <textarea matInput class="p-1 sm:p-2" rows="2" [formControlName]="'address'" readonly></textarea>
+                    </mat-form-field>
+
+                    <!-- City -->
+                    <mat-form-field class="w-full fuse-mat-dense col-span-4 text-lg sm:text-3xl" [subscriptSizing]="'dynamic'">
+                        <mat-label class="test-md sm:text-xl">City</mat-label>
+                        <input matInput [formControlName]="'city'" readonly class="p-1 sm:p-2" type="text">
                     </mat-form-field>
 
                     <!-- Postcode -->
                     <mat-form-field class="w-full fuse-mat-dense col-span-2 text-lg sm:text-3xl" [subscriptSizing]="'dynamic'">
-                        <mat-label  class="test-md sm:text-xl">Postcode</mat-label>
-                        <input matInput matInput="'postcode'" class="p-1 sm:p-2" type="text" pattern="[0-9]*" value="99999">
-                    </mat-form-field>
-
-                    <!-- City -->
-                    <mat-form-field class="w-full fuse-mat-dense col-span-2 text-lg sm:text-3xl" [subscriptSizing]="'dynamic'">
-                        <mat-label  class="test-md sm:text-xl">City</mat-label>
-                        <input matInput matInput="'city'" class="p-1 sm:p-2" value="Bandar" type="text">
+                        <mat-label class="test-md sm:text-xl">Postcode</mat-label>
+                        <input matInput [formControlName]="'postcode'" readonly  class="p-1 sm:p-2" type="text" pattern="[0-9]*">
                     </mat-form-field>
 
                     <!-- State -->
                     <mat-form-field class="w-full fuse-mat-dense col-span-2 text-lg sm:text-3xl" [subscriptSizing]="'dynamic'">
-                        <mat-label  class="test-md sm:text-xl">State</mat-label>
-                        <input matInput matInput="'state'" class="p-1 sm:p-2" type="text" value="Negeri" pattern="[A-Z a-z]*">
-                    </mat-form-field>
-
-                    <!-- Race -->
-                    <mat-form-field class="w-full fuse-mat-dense col-span-2 text-lg sm:text-3xl" [subscriptSizing]="'dynamic'">
-                        <mat-label  class="test-md sm:text-xl">Race</mat-label>
-                        <input matInput matInput="'race'" class="p-1 sm:p-2" value="Bangsa" type="text" pattern="[A-Z a-z]*">
+                        <mat-label class="test-md sm:text-xl">State</mat-label>
+                        <input matInput [formControlName]="'state'" readonly class="p-1 sm:p-2" type="text" pattern="[A-Z a-z]*">
                     </mat-form-field>
 
                 </form>
@@ -161,10 +155,12 @@
 
 @if(idCameraOpen){
     <!-- Capture ID -->
-    <id-scanner (idCameraOpened)="noticeId($event)" class="absolute inset-0 w-full h-full"></id-scanner>
+    <id-scanner (idCameraOpened)="noticeId($event)" (scannedData)="getData($event)" class="absolute inset-0 w-full h-full"></id-scanner>
+    <!-- !!! Receive data ID -->
 }
 
 @if(docCameraOpen){
     <!-- Capture Doc  -->
     <doc-scanner (docCameraOpened)="noticeDoc($event)" class="absolute inset-0 w-full h-full"></doc-scanner>
+    <!-- !!!! Receive data Doc -->
 }

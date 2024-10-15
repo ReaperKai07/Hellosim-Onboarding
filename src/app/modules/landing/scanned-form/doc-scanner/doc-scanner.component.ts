@@ -19,6 +19,8 @@ import { firstValueFrom } from 'rxjs';
   ],
 })
 
+// --------------------------------- !!! REQUIRE FULL MAKEOVER !!! ----------------------------------------
+
 export class DocScannerComponent implements AfterViewInit {
   @ViewChild('docVideo') docVideoElement;
   @Output() docCameraOpened = new EventEmitter<boolean>();

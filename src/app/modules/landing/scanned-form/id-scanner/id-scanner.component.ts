@@ -1,17 +1,11 @@
-import { CommonModule, NgStyle } from '@angular/common';
-import {
-    AfterViewInit,
-    Component,
-    EventEmitter,
-    Output,
-    ViewChild,
-    inject,
-} from '@angular/core';
+import { CommonModule, DatePipe, NgStyle } from '@angular/common';
+import { AfterViewInit, Component, EventEmitter, Output, ViewChild, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { WebcamModule } from 'ngx-webcam';
 import { firstValueFrom } from 'rxjs';
 import { OCRService } from '../scanned-form.service';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 declare var cv: any; // OpenCV's cv object
 
@@ -19,23 +13,33 @@ declare var cv: any; // OpenCV's cv object
     selector: 'id-scanner',
     templateUrl: './id-scanner.component.html',
     standalone: true,
+    providers:[DatePipe],
     imports: [
         MatIconModule,
         MatButtonModule,
         WebcamModule,
         NgStyle,
         CommonModule,
+        MatProgressSpinnerModule
     ],
 })
+
 export class IdScannerComponent implements AfterViewInit {
     @ViewChild('idVideo') idVideoElement;
     @Output() idCameraOpened = new EventEmitter<boolean>();
+    @Output() scannedData: EventEmitter<any> = new EventEmitter<any>();
 
     private cameraStream: MediaStream | null = null;
     private _ocrService = inject(OCRService);
 
     errorPrompt = false;
     errorMessage = '';
+    idPreviewOpened: boolean = false;
+    idImageData: string = null;
+    isLoading = false;
+    constructor(private datePipe: DatePipe) {
+        
+    }
 
   // -----------------------------------------------------------------------------------------------------
   // @ Lifecycle hooks
@@ -67,13 +71,15 @@ export class IdScannerComponent implements AfterViewInit {
             canvas.width,
             canvas.height
         );
-        const idImageData = canvas.toDataURL('image/png');
+        this.idImageData = canvas.toDataURL('image/png');
+        this._stopCamera();
+        this.idPreviewOpened = true; //Open Preview
 
         // Close camera when image accepted
-        if (idImageData) {
-            console.log('idImageData', idImageData);
+        if (this.idImageData && this.idPreviewOpened) {
+            console.log('idImageData', this.idImageData);
 
-            this.retrieveIDFromOcr(idImageData);
+            // this.retrieveIDFromOcr(this.idImageData);
 
             // try {
             //     const croppedImage =
@@ -91,8 +97,7 @@ export class IdScannerComponent implements AfterViewInit {
             //         console.error('Error during preprocessing: ', error);
             //     }
             // );
-
-            this.closeIdCamera();
+           
         } else {
             console.warn('Should Display Error');
         }
@@ -103,12 +108,25 @@ export class IdScannerComponent implements AfterViewInit {
     /**
      * Close camera
      */
-    closeIdCamera(): void {
-        // Send to parent open camera to false
-        this.idCameraOpened.emit(false);
+    closeIdCamera(type: string = 'continue'): void {
         // Stop camera streaming
         this._stopCamera();
+        
+        if (type === 'continue' && this.idImageData) {
+            this.retrieveIDFromOcr(this.idImageData);
+        } else {
+            // Send to parent open camera to false
+            this.idCameraOpened.emit(false);
+        }
     }
+
+    /**
+     * Close preview
+     */
+    closeIdPreview() {
+        this.idPreviewOpened = false;
+        this._startCamera();
+      }
 
     /**
      * Convert base64 format to form data
@@ -136,38 +154,48 @@ export class IdScannerComponent implements AfterViewInit {
         return formData;
     }
 
-  async retrieveIdentityImageId(base64:any) {
-    try {
-        const formData = this.convertBase64ToFormData(
-          base64,
-        );
-        const imageId = this._ocrService.postOCR('mykad',formData);
-        const response = await firstValueFrom(imageId);
-
-        console.log("response", response);
-        
-        return response;
-    } catch (error) {
-        // Handle the error here
-        console.error('error')
-        // Optionally, rethrow the error or return a default value
-        throw error;
-        // or return null;
-        // depending on how you want to handle the failure
-    }
-}
     /**
      * Get ID ocr
      *
      * @param base64
      */
     async retrieveIDFromOcr(base64: any) {
+        this.isLoading = true;
+
         try {
             const formData = this.convertBase64ToFormData(base64);
-            const imageId = this._ocrService.postOCR('mykad', formData);
-            const response = await firstValueFrom(imageId);
 
-            return response;
+            this._ocrService.postOCR('mykad', formData)
+                .subscribe((response) => {
+                    if (response) {
+                        const result = response;
+                        const address = this._addressCheck(result.address);
+                        const dob = this.getDateOfBirth(result.identificationNumber);
+            
+                        let bodyPayload = {
+                            name: result.name.toUpperCase(),
+                            idType: result.documentType.toUpperCase(),
+                            idNumber: result.identificationNumber,
+                            birth: dob,
+                            //nationality: result. Hardcoded MALAYSIA
+                            address: address.addr.toUpperCase(),
+                            postcode: address.postcode,
+                            city: address.city.toUpperCase(),
+                            state: address.state.toUpperCase(),
+                            country: address.country.toUpperCase(),
+                        };
+                        
+                        
+                        // Emit to parent
+                        this.scannedData.emit(bodyPayload);
+                        // Send to parent open camera to false
+                        this.idCameraOpened.emit(false);
+
+                        this.isLoading = false;
+                    }
+                })
+
+
         } catch (error) {
             // Handle the error here
             console.error('error');
@@ -293,15 +321,88 @@ export class IdScannerComponent implements AfterViewInit {
         });
     }
 
+    //!Add Here
+
     // -----------------------------------------------------------------------------------------------------
     // @ Private methods
     // -----------------------------------------------------------------------------------------------------
 
     /**
      * Start camera
-     *
+     * @param address
      * @private
      */
+    
+    //Separating Address
+    public _addressCheck(address: any): { addr: string; postcode: string; city: string; state: string; country: string; } {
+
+        let newAddr: { addr: string; postcode: string; city: string; state: string; country: string; } = null;
+
+        if (address) // Only do checking if there's an address
+        {
+            console.log("Function Entered")
+            let postcodeRegex = /\b\d{5}\b/g; // matches 5 digits followed by a space
+            let postcodeMatches = address.match(postcodeRegex)
+
+            let addr1 = null;
+            let addr2 = null;
+            if (postcodeMatches && postcodeMatches.length > 0) {
+                [addr1, addr2] = address.split(postcodeMatches[0]).map(str => str.trim());
+            }
+
+            let state = null;
+            let city = null;
+            let postcode = postcodeMatches ? postcodeMatches[0] : null
+
+            for (const stateName of States) {
+                if (addr2 && addr2.includes(stateName)) {
+
+                    state = stateName;
+                    city = addr2.replace(stateName, "").trim();
+
+                    break; // Exit loop when a match is found
+                }
+            }
+
+            // Assuming 'state' is already defined and contains the state name
+            if (WilayahTypeMapping.hasOwnProperty(state)) {
+                state = WilayahTypeMapping[state];
+            }
+
+            newAddr = { addr: addr1 ? addr1 : null, postcode: postcode, city: city, state: state, country: 'MALAYSIA' }
+
+            //console.log("newAddr", newAddr);
+            
+        } else {
+            newAddr = { addr: null, postcode: null, city: null, state: null, country: 'MALAYSIA' }
+
+        }
+        return newAddr;
+    }
+
+    //Getting Date of Birth
+    getDateOfBirth(ic: string): Date | null {
+        if (ic.length < 12) {
+        return null; 
+        }
+        
+        const icSplit = ic.slice(0, 6);
+        const year = parseInt(icSplit.slice(0, 2), 10);
+        const month = parseInt(icSplit.slice(2, 4), 10);
+        const day = parseInt(icSplit.slice(4, 6), 10);
+        
+        let fullYear;
+        if (year >= 0 && year <= 30) {
+        fullYear = 2000 + year;
+        } else if (year >= 31 && year <= 99) {
+        fullYear = 1900 + year;
+        } else {
+        return null;
+        }
+        
+        return new Date(fullYear, month - 1, day);
+    }
+
     private _startCamera(): void {
         // Check if the camera is available
         if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
@@ -312,28 +413,27 @@ export class IdScannerComponent implements AfterViewInit {
             return;
         }
 
-        const idVideoElement: HTMLVideoElement =
-            this.idVideoElement.nativeElement;
+        const idVideoElement: HTMLVideoElement = this.idVideoElement.nativeElement;
 
         // Request access to the camera
         navigator.mediaDevices
-            .getUserMedia({
-                video: { facingMode: 'user' },
-            })
-            .then((stream) => {
-                // Store the camera stream reference
-                this.cameraStream = stream;
+        .getUserMedia({
+            video: { facingMode: 'user' },
+        })
+        .then((stream) => {
+            // Store the camera stream reference
+            this.cameraStream = stream;
 
-                // Set the video element source to the stream
-                idVideoElement.srcObject = stream;
-            })
-            .catch((error) => {
-                setTimeout(() => {
-                    this.errorPrompt = true;
-                    this.errorMessage =
-                        'Error Accessing Camera : ' + error.name;
-                }, 0);
-            });
+            // Set the video element source to the stream
+            idVideoElement.srcObject = stream;
+        })
+        .catch((error) => {
+            setTimeout(() => {
+                this.errorPrompt = true;
+                this.errorMessage =
+                    'Error Accessing Camera : ' + error.name;
+            }, 0);
+        });
     }
 
     /**
@@ -356,3 +456,60 @@ export class IdScannerComponent implements AfterViewInit {
         idVideoElement.srcObject = null;
     }
 }
+
+export const States = [
+    "JOHOR",
+    "KEDAH",
+    "KELANTAN",
+    "MELAKA",
+    "NEGERI SEMBILAN",
+    "PAHANG",
+    "PULAU PINANG",
+    "PERAK",
+    "PERLIS",
+    "SELANGOR",
+    "TERENGGANU",
+    "SABAH",
+    "SARAWAK",
+    "W.PERSEKUTUAN(KL)",
+    "W.PERSEKUTUAN( KL )",
+    "W.PERSEKUTUAN (KL)",
+    "W. PERSEKUTUAN(KL)",
+    "W. PERSEKUTUAN ( KL )",
+    "W. PERSEKUTUAN (KL)",
+    "W. PERSEKUTUAN ( LABUAN )",
+    "W. PERSEKUTUAN (LABUAN)",
+    "W. PERSEKUTUAN(LABUAN)",
+    "W.PERSEKUTUAN(LABUAN)",
+    "W.PERSEKUTUAN( LABUAN )",
+    "W.PERSEKUTUAN ( LABUAN )",
+    "W.PERSEKUTUAN(PUTRAJAYA)",
+    "W.PERSEKUTUAN( PUTRAJAYA )",
+    "W.PERSEKUTUAN ( PUTRAJAYA )",
+    "W. PERSEKUTUAN ( PUTRAJAYA )",
+    "W. PERSEKUTUAN (PUTRAJAYA)",
+    "W. PERSEKUTUAN(PUTRAJAYA)"
+];
+
+export const WilayahTypeMapping = {
+    "W.PERSEKUTUAN(KL)": "WILAYAH PERSEKUTUAN KUALALUMPUR",
+    "W.PERSEKUTUAN( KL )": "WILAYAH PERSEKUTUAN KUALALUMPUR",
+    "W.PERSEKUTUAN (KL)": "WILAYAH PERSEKUTUAN KUALALUMPUR",
+    "W. PERSEKUTUAN(KL)": "WILAYAH PERSEKUTUAN KUALALUMPUR",
+    "W. PERSEKUTUAN ( KL )": "WILAYAH PERSEKUTUAN KUALALUMPUR",
+    "W. PERSEKUTUAN (KL)": "WILAYAH PERSEKUTUAN KUALALUMPUR",
+
+    "W.PERSEKUTUAN(LABUAN)": "WILAYAH PERSEKUTUAN LABUAN",
+    "W.PERSEKUTUAN( LABUAN )": "WILAYAH PERSEKUTUAN LABUAN",
+    "W.PERSEKUTUAN (LABUAN)": "WILAYAH PERSEKUTUAN LABUAN",
+    "W. PERSEKUTUAN ( LABUAN )": "WILAYAH PERSEKUTUAN LABUAN",
+    "W. PERSEKUTUAN (LABUAN)": "WILAYAH PERSEKUTUAN LABUAN",
+    "W. PERSEKUTUAN(LABUAN)": "WILAYAH PERSEKUTUAN LABUAN",
+
+    "W. PERSEKUTUAN ( PUTRAJAYA )": "WILAYAH PERSEKUTUAN PUTRAJAYA",
+    "W. PERSEKUTUAN (PUTRAJAYA)": "WILAYAH PERSEKUTUAN PUTRAJAYA",
+    "W. PERSEKUTUAN(PUTRAJAYA)": "WILAYAH PERSEKUTUAN PUTRAJAYA",
+    "W.PERSEKUTUAN( PUTRAJAYA )": "WILAYAH PERSEKUTUAN PUTRAJAYA",
+    "W.PERSEKUTUAN(PUTRAJAYA)": "WILAYAH PERSEKUTUAN PUTRAJAYA",
+    "W.PERSEKUTUAN (PUTRAJAYA)": "WILAYAH PERSEKUTUAN PUTRAJAYA",
+};

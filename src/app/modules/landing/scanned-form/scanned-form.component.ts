@@ -1,6 +1,6 @@
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { Component, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, OnChanges, SimpleChanges, ViewEncapsulation, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
@@ -12,8 +12,7 @@ import { IdScannerComponent } from './id-scanner/id-scanner.component';
 import { DocScannerComponent } from './doc-scanner/doc-scanner.component';
 import { NgClass } from '@angular/common';
 import { WebcamModule } from 'ngx-webcam';
-
-
+import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-scanned-form',
@@ -33,24 +32,58 @@ import { WebcamModule } from 'ngx-webcam';
         IdScannerComponent,
         DocScannerComponent,
         NgClass,
-        WebcamModule
+        WebcamModule,
+        ReactiveFormsModule,
+        FormsModule
   ],
   
 })
-export class LandingScannedFormComponent {
+export class LandingScannedFormComponent implements OnInit {
   
-  //Camera open by default
-  idCameraOpen: boolean = true; //True instant-open ID camera when come into page
+  //Camera open by default, 'true'
+  idCameraOpen: boolean = true; //'True' will instant open ID camera when come into page
   docCameraOpen: boolean = false;
+
+  scannedForm: UntypedFormGroup;
+
+  constructor(
+    private _formBuilder:UntypedFormBuilder,
+    private _changeDetectorRef: ChangeDetectorRef
+  ) {}
+
+  ngOnInit():void{
+    this.scannedForm = this._formBuilder.group({
+      name: [{ value: 'fsfsfs', disabled: true }],
+      idType:[{ value: '', disabled: true }],
+      idNumber: [{ value: '', disabled: true }],
+      birth:[{ value: '', disabled: true }],
+      address: [{ value: '', disabled: true }],
+      postcode: [{ value: '', disabled: true }],
+      city: [{ value: '', disabled: true }],
+      state: [{ value: '', disabled: true }],
+      country: [{ value: '', disabled: true }],
+      nationality: [{ value: 'MALAYSIA', disabled: true }],
+      //contact: [''],
+    })
+  }
 
   noticeId($event) {
     this.idCameraOpen = $event;
     console.log("Boolean:", $event, "- ID Camera Closed");
-    
+    // !!! Display back data ID to confirm received
   }
   
   noticeDoc($event) {
     this.docCameraOpen = $event;
     console.log("Boolean:", $event, "- Doc Camera Closed");
+    // !!! Display back data Doc to confirm received
   }
+
+  getData($event) {
+    console.log("received",$event);
+    if($event){
+      this.scannedForm.patchValue($event)
+    }
+  }
+
 }
