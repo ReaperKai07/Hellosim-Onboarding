@@ -10,6 +10,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { IdScannerComponent } from './id-scanner/id-scanner.component';
 import { DocScannerComponent } from './doc-scanner/doc-scanner.component';
+import { FaceScannerComponent } from './face-scanner/face-scanner.component';
 import { NgClass } from '@angular/common';
 import { WebcamModule } from 'ngx-webcam';
 import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
@@ -31,6 +32,7 @@ import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup 
         MatStepperModule,
         IdScannerComponent,
         DocScannerComponent,
+        FaceScannerComponent,
         NgClass,
         WebcamModule,
         ReactiveFormsModule,
@@ -40,9 +42,10 @@ import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup 
 })
 export class LandingScannedFormComponent implements OnInit {
   
-  //Camera open by default, 'true'
-  idCameraOpen: boolean = true; //'True' will instant open ID camera when come into page
-  docCameraOpen: boolean = false;
+  //'True' will instant open camera when come into page
+  idCameraOpen: boolean = false; //true by default
+  docCameraOpen: boolean = true; 
+  faceCameraOpen: boolean = false; 
 
   scannedForm: UntypedFormGroup;
 
@@ -53,7 +56,7 @@ export class LandingScannedFormComponent implements OnInit {
 
   ngOnInit():void{
     this.scannedForm = this._formBuilder.group({
-      name: [{ value: 'fsfsfs', disabled: true }],
+      name: [{ value: '', disabled: true }],
       idType:[{ value: '', disabled: true }],
       idNumber: [{ value: '', disabled: true }],
       birth:[{ value: '', disabled: true }],
@@ -70,15 +73,18 @@ export class LandingScannedFormComponent implements OnInit {
   noticeId($event) {
     this.idCameraOpen = $event;
     console.log("Boolean:", $event, "- ID Camera Closed");
-    // !!! Display back data ID to confirm received
   }
   
   noticeDoc($event) {
     this.docCameraOpen = $event;
     console.log("Boolean:", $event, "- Doc Camera Closed");
-    // !!! Display back data Doc to confirm received
   }
-
+  
+  noticeFace($event) {
+    this.faceCameraOpen = $event;
+    console.log("Boolean:", $event, "- Face Camera Closed");
+  }
+  
   getData($event) {
     console.log("received",$event);
     if($event){

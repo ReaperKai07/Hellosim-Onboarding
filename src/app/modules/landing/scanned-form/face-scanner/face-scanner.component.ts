@@ -1,14 +1,12 @@
-import { Component, OnInit, AfterViewInit, ViewChild, Output, EventEmitter } from '@angular/core';
+import { NgStyle, CommonModule } from '@angular/common';
+import { AfterViewInit, Component, EventEmitter, Output, ViewChild, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { WebcamModule} from 'ngx-webcam';
-import { NgStyle, CommonModule} from '@angular/common'
-import { OCRService } from '../scanned-form.service';
-import { firstValueFrom } from 'rxjs';
+import { WebcamModule } from 'ngx-webcam';
 
 @Component({
-  selector: 'doc-scanner',
-  templateUrl: './doc-scanner.component.html',
+  selector: 'face-scanner',
+  templateUrl: './face-scanner.component.html',
   standalone: true,
   imports: [
     MatIconModule,
@@ -19,42 +17,40 @@ import { firstValueFrom } from 'rxjs';
   ],
 })
 
-// --------------------------------- !!! REQUIRE FULL MAKEOVER !!! ----------------------------------------
-
-export class DocScannerComponent implements AfterViewInit {
-  @ViewChild('docVideo') docVideoElement;
-  @Output() docCameraOpened = new EventEmitter<boolean>();
+export class FaceScannerComponent implements AfterViewInit{
+  @ViewChild('faceVideo') faceVideoElement;
+  @Output() faceCameraOpened = new EventEmitter<boolean>();
 
   private cameraStream: MediaStream | null = null;
 
   errorPrompt = false;
   errorMessage = '';
-  docPreviewOpened: boolean = false;
-  docImageData: string = null;
+  facePreviewOpened: boolean = false;
+  faceImageData: string = null;
 
   ngAfterViewInit(): void {
     this._startCamera();
   }
 
-  async captureDocImage() {
+  async captureFaceImage() {
     const canvas = document.createElement('canvas');
-    canvas.width = this.docVideoElement.nativeElement.videoWidth;
-    canvas.height = this.docVideoElement.nativeElement.videoHeight;
+    canvas.width = this.faceVideoElement.nativeElement.videoWidth;
+    canvas.height = this.faceVideoElement.nativeElement.videoHeight;
     const ctx = canvas.getContext('2d');
     ctx.drawImage(
-        this.docVideoElement.nativeElement,
+        this.faceVideoElement.nativeElement,
         0,
         0,
         canvas.width,
         canvas.height
     );
-    this.docImageData = canvas.toDataURL('image/png');
+    this.faceImageData = canvas.toDataURL('image/png');
     this._stopCamera();
-    this.docPreviewOpened = true; //Open Preview
+    this.facePreviewOpened = true; //Open Preview
 
     // Close camera when image accepted
-    if (this.docImageData && this.docPreviewOpened) {
-        console.log('docImageData', this.docImageData);
+    if (this.faceImageData && this.facePreviewOpened) {
+        console.log('faceImageData', this.faceImageData);
        
     } else {
         console.warn('Should Display Error');
@@ -63,10 +59,10 @@ export class DocScannerComponent implements AfterViewInit {
     this.errorPrompt = false;
   }
 
-  closeDocCamera(type: string = 'continue'): void {
+  closeFaceCamera(type: string = 'continue'): void {
     // Stop camera streaming
     this._stopCamera();
-    this.docCameraOpened.emit(false);
+    this.faceCameraOpened.emit(false);
     
     /*
     if (type === 'continue' && this.faceImageData) {
@@ -80,8 +76,8 @@ export class DocScannerComponent implements AfterViewInit {
 /**
  * Close preview
  */
-  closeDocPreview() {
-    this.docPreviewOpened = false;
+  closeFacePreview() {
+    this.facePreviewOpened = false;
     this._startCamera();
   }
 
@@ -95,7 +91,7 @@ export class DocScannerComponent implements AfterViewInit {
         return;
     }
 
-    const docVideoElement: HTMLVideoElement = this.docVideoElement.nativeElement;
+    const faceVideoElement: HTMLVideoElement = this.faceVideoElement.nativeElement;
 
     // Request access to the camera
     navigator.mediaDevices
@@ -107,7 +103,7 @@ export class DocScannerComponent implements AfterViewInit {
         this.cameraStream = stream;
 
         // Set the video element source to the stream
-        docVideoElement.srcObject = stream;
+        faceVideoElement.srcObject = stream;
     })
     .catch((error) => {
         setTimeout(() => {
@@ -120,8 +116,8 @@ export class DocScannerComponent implements AfterViewInit {
 
   private _stopCamera(): void {
     // Get the video element reference
-    const docVideoElement: HTMLVideoElement =
-        this.docVideoElement.nativeElement;
+    const faceVideoElement: HTMLVideoElement =
+        this.faceVideoElement.nativeElement;
 
     // Stop the camera stream if it exists
     if (this.cameraStream) {
@@ -130,6 +126,8 @@ export class DocScannerComponent implements AfterViewInit {
     }
 
     // Clear the srcObject property of the video element
-    this.docVideoElement.srcObject = null;
+    this.faceVideoElement.srcObject = null;
   }
 }
+
+

@@ -37,8 +37,9 @@ export class IdScannerComponent implements AfterViewInit {
     idPreviewOpened: boolean = false;
     idImageData: string = null;
     isLoading = false;
+
     constructor(private datePipe: DatePipe) {
-        
+
     }
 
   // -----------------------------------------------------------------------------------------------------
@@ -321,17 +322,15 @@ export class IdScannerComponent implements AfterViewInit {
         });
     }
 
-    //!Add Here
-
     // -----------------------------------------------------------------------------------------------------
     // @ Private methods
     // -----------------------------------------------------------------------------------------------------
 
     /**
-     * Start camera
-     * @param address
-     * @private
-     */
+    * Start camera
+    * @param address
+    * @private
+    */
     
     //Separating Address
     public _addressCheck(address: any): { addr: string; postcode: string; city: string; state: string; country: string; } {
