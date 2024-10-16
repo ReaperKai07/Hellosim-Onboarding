@@ -14,6 +14,7 @@ import { RouterLink } from '@angular/router';
         MatIconModule
     ],
 })
+
 export class LandingHomeComponent {
 
     constructor() {}

@@ -3,8 +3,7 @@
         
         <!-- Title Card & Back Button-->
         <div class="absolute z-99 top-0 h-14 sm:h-20 bg-white shadow-md p-4 flex flex-row items-between w-full"> 
-            <!-- FIX ROUTING !!! to user-consent -- (click)="closeIdCamera('back');" -->
-            <a href="/" class="flex justify-center w-8 items-center"><mat-icon class="text-black text-2xl sm:text-6xl">arrow_back</mat-icon></a>
+            <a (click)="closeDocCamera('back');" class="flex justify-center w-8 items-center"><mat-icon class="text-black text-2xl sm:text-6xl">arrow_back</mat-icon></a>
             <h2 class="col-span-4 text-lg font-bold w-full text-center sm:text-4xl">Register SIM Card</h2>
         </div>
 

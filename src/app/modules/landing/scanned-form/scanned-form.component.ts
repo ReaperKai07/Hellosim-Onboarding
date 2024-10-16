@@ -43,8 +43,8 @@ import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup 
 export class LandingScannedFormComponent implements OnInit {
   
   //'True' will instant open camera when come into page
-  idCameraOpen: boolean = false; //true by default
-  docCameraOpen: boolean = true; 
+  idCameraOpen: boolean = true; //true by default
+  docCameraOpen: boolean = false; 
   faceCameraOpen: boolean = false; 
 
   scannedForm: UntypedFormGroup;
