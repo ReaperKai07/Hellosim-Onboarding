@@ -6,7 +6,6 @@ import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-start',
   templateUrl: './start.component.html',
-  encapsulation: ViewEncapsulation.None,
   standalone: true,
   imports: [
     MatButtonModule,

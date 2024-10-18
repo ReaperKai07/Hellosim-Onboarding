@@ -1,0 +1,44 @@
+<div [ngClass]="{'hidden': faceCameraOpen}" class="w-full flex bg-red-600 justify-center relative"> <!-- Offset -->
+    <div class="bg-white w-full flex flex-col items-center"> <!-- Range -->
+        
+        <!-- Title Card & Back Button-->
+        <div class="bg-white shadow-md p-4 flex flex-row items-between top-0 h-14 sm:h-20 w-full"> 
+            <a href="/" class="flex justify-center w-8 items-center"><mat-icon class="text-black text-2xl sm:text-6xl">arrow_back</mat-icon></a>
+            <h2 class="col-span-4 text-lg font-bold w-full text-center sm:text-4xl">Register SIM Card</h2>
+        </div>
+
+        <!-- Page Content -->
+        <div class="w-full h-full p-4 sm:p-12">
+            <h1 class="pb-4 text-lg font-bold sm:text-4xl">Verified and Approved</h1>
+            <div class="w-full h-100 rounded-lg bg-green-600">
+
+            </div>
+            
+            <!-- Face Button -->
+            <div class="pt-4">                
+                <button mat-flat-button (click)="faceCameraOpen=true" class="w-full rounded-md sm:rounded-xl bg-[#ff0078] color: white; font-semibold py-5 sm:py-10">
+                    <div class="w-full flex flex-row items-center tracking-tighter text-white">
+                        <mat-icon [svgIcon]="'feather:paperclip'"  class="sm:h-10 sm:w-10"></mat-icon><p class="pl-1 ms:pl-2 text-md sm:text-4xl">Take Selfie Picture</p>
+                    </div>
+                </button>
+            </div>
+
+            <!-- Confirm Button-->
+            <div class="pt-4">                
+                <button mat-flat-button [routerLink]="['/supporting-doc']" class="w-full rounded-md sm:rounded-xl bg-[#ff0078] color: white; font-semibold py-5 sm:py-10">
+                     <div class="w-full flex flex-row items-center tracking-tighter text-white">
+                        <mat-icon [svgIcon]="'feather:thumbs-up'" class="sm:h-10 sm:w-10"></mat-icon>
+                        <p class="pl-1 ms:pl-2 text-md sm:text-4xl">Confirm</p>
+                    </div>
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+@if(faceCameraOpen){
+    <!-- Capture Face -->
+   <face-scanner (faceCameraOpened)="noticeFace($event)" class="absolute inset-0 w-full h-full"></face-scanner>
+}

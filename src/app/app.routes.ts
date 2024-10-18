@@ -63,6 +63,8 @@ export const appRoutes: Route[] = [
             {path: 'start', loadChildren: () => import('app/modules/landing/start/start.routes')},
             {path: 'home', loadChildren: () => import('app/modules/landing/home/home.routes')},
             {path: 'scanned-form', loadChildren: () => import('app/modules/landing/scanned-form/scanned-form.routes')},
+            {path: 'supporting-doc', loadChildren: () => import('app/modules/landing/supporting-doc/supporting-doc.routes')},
+            {path: 'face-verify', loadChildren: () => import('app/modules/landing/face-verify/face-verify.routes')},
             {path: 'user-consent', loadChildren: () => import('app/modules/landing/user-consent/user-consent.routes')},
         ]
     },

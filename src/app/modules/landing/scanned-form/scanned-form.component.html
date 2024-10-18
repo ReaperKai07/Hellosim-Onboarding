@@ -1,5 +1,5 @@
-<div [ngClass]="{'hidden': idCameraOpen || docCameraOpen || faceCameraOpen}" class="w-full flex bg-red-600 justify-center relative"> <!-- Offset -->
-    <div class="bg-white w-full flex flex-col items-center"> <!-- Range -->
+<div [ngClass]="{'hidden': idCameraOpen}" class="w-full flex bg-red-600 justify-center relative"> <!-- Offset -->
+    <div class="bg-white w-full flex flex-col items-center"> <!-- Range --> <!-- faceCameraOpen -->
 
         <!-- Title Card & Back Button-->
         <div class="bg-white shadow-md p-4 flex flex-row items-between top-0 h-14 sm:h-20 w-full"> 
@@ -30,36 +30,34 @@
                     <hr class="col-span-4 m-0 border-t border-black"> <!-- Divider-->
 
                     <!-- Name -->
-                    
-                    <mat-form-field class="w-full h-auto fuse-mat-dense col-span-4 text-lg sm:text-3xl" [subscriptSizing]="'dynamic'">
-                        <mat-label class="text-md sm:text-xl mb-6">Full Name</mat-label>
-                        <input matInput  class="p-1 sm:p-2" type="text" [formControlName]="'name'" readonly pattern="[A-Z a-z]*">
+                    <mat-form-field class="w-full fuse-mat-dense col-span-4 mt-4" [subscriptSizing]="'dynamic'" >
+                        <mat-label>Full Name</mat-label>
+                        <input matInput class="p-1 sm:p-2" type="text" [formControlName]="'name'" readonly pattern="[A-Z a-z]*">
                     </mat-form-field>
 
                     <!-- ID Type -->
-                     
-                    <mat-form-field class="w-full fuse-mat-dense col-span-2 text-lg sm:text-3xl" [subscriptSizing]="'dynamic'">
-                        <mat-label class="test-md sm:text-xl">ID Type</mat-label>
+                    <mat-form-field class="w-full fuse-mat-dense col-span-2" [subscriptSizing]="'dynamic'">
+                        <mat-label>ID Type</mat-label>
                         <input matInput class="p-1 sm:p-2" type="text" [formControlName]="'idType'" readonly pattern="[A-Z a-z]*">
                     </mat-form-field>
 
                     <!-- ID Number -->
-                    <mat-form-field class="w-full fuse-mat-dense col-span-2 text-lg sm:text-3xl" [subscriptSizing]="'dynamic'">
-                        <mat-label class="test-md sm:text-xl">ID Number</mat-label>
+                    <mat-form-field class="w-full fuse-mat-dense col-span-2" [subscriptSizing]="'dynamic'">
+                        <mat-label>ID Number</mat-label>
                         <input matInput class="p-1 sm:p-2" type="text" [formControlName]="'idNumber'" pattern="[0-9]*">
                     </mat-form-field>
 
                     <!-- Birth Date -->
-                    <mat-form-field class="w-full fuse-mat-dense col-span-2 text-lg sm:text-3xl" [subscriptSizing]="'dynamic'">
-                        <mat-label class="test-md sm:text-xl">Birth Date</mat-label>
+                    <mat-form-field class="w-full fuse-mat-dense col-span-2" [subscriptSizing]="'dynamic'">
+                        <mat-label>Birth Date</mat-label>
                         <input matInput [matDatepicker]="picker" [formControlName]="'birth'" class="p-1 sm:p-2">
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
                     </mat-form-field>
 
                     <!-- Nationality -->
-                    <mat-form-field class="w-full fuse-mat-dense col-span-2 text-lg sm:text-3xl" [subscriptSizing]="'dynamic'">
-                        <mat-label class="test-md sm:text-xl">Nationality</mat-label>
+                    <mat-form-field class="w-full fuse-mat-dense col-span-2" [subscriptSizing]="'dynamic'">
+                        <mat-label>Nationality</mat-label>
                         <input matInput class="p-1 sm:p-2" type="text" [formControlName]="'nationality'" pattern="[A-Z a-z]*">
                     </mat-form-field>
 
@@ -77,26 +75,26 @@
                     <hr class="col-span-4 m-0 border-t border-black"> <!-- Divider-->
 
                     <!-- Address -->
-                    <mat-form-field class="w-full fuse-mat-dense col-span-4 text-lg sm:text-3xl" [subscriptSizing]="'dynamic'">
-                        <mat-label class="test-md sm:text-xl">Address</mat-label>
+                    <mat-form-field class="w-full fuse-mat-dense col-span-4"[subscriptSizing]="'dynamic'">
+                        <mat-label>Address</mat-label>
                         <textarea matInput class="p-1 sm:p-2" rows="2" [formControlName]="'address'" readonly></textarea>
                     </mat-form-field>
 
                     <!-- City -->
-                    <mat-form-field class="w-full fuse-mat-dense col-span-4 text-lg sm:text-3xl" [subscriptSizing]="'dynamic'">
-                        <mat-label class="test-md sm:text-xl">City</mat-label>
+                    <mat-form-field class="w-full fuse-mat-dense col-span-4" [subscriptSizing]="'dynamic'">
+                        <mat-label>City</mat-label>
                         <input matInput [formControlName]="'city'" readonly class="p-1 sm:p-2" type="text">
                     </mat-form-field>
 
                     <!-- Postcode -->
-                    <mat-form-field class="w-full fuse-mat-dense col-span-2 text-lg sm:text-3xl" [subscriptSizing]="'dynamic'">
-                        <mat-label class="test-md sm:text-xl">Postcode</mat-label>
+                    <mat-form-field class="w-full fuse-mat-dense col-span-2" [subscriptSizing]="'dynamic'">
+                        <mat-label>Postcode</mat-label>
                         <input matInput [formControlName]="'postcode'" readonly  class="p-1 sm:p-2" type="text" pattern="[0-9]*">
                     </mat-form-field>
 
                     <!-- State -->
-                    <mat-form-field class="w-full fuse-mat-dense col-span-2 text-lg sm:text-3xl" [subscriptSizing]="'dynamic'">
-                        <mat-label class="test-md sm:text-xl">State</mat-label>
+                    <mat-form-field class="w-full fuse-mat-dense col-span-2" [subscriptSizing]="'dynamic'">
+                        <mat-label>State</mat-label>
                         <input matInput [formControlName]="'state'" readonly class="p-1 sm:p-2" type="text" pattern="[A-Z a-z]*">
                     </mat-form-field>
 
@@ -114,8 +112,8 @@
                     <hr class="col-span-4 m-0 border-t border-black"> <!-- Divider-->
 
                     <!-- Contact Number -->
-                    <mat-form-field class="w-full fuse-mat-dense col-span-4  text-lg sm:text-3xl" [subscriptSizing]="'dynamic'">
-                        <mat-label class="test-md sm:text-xl">Alternate contact number</mat-label>
+                    <mat-form-field class="w-full fuse-mat-dense col-span-4" [subscriptSizing]="'dynamic'">
+                        <mat-label>Alternate contact number</mat-label>
                         <input matInput matInput="'recontact'" class="p-1 sm:p-2" type="text" value="019-999-9999" pattern="[0-9]*">
                     </mat-form-field>
 
@@ -129,28 +127,10 @@
 
             <!-- Confirm Button-->
             <div class="pt-4">                
-                <button mat-flat-button [routerLink]="['/user-consent']" class="w-full rounded-md sm:rounded-xl bg-[#ff0078] color: white; font-semibold py-5 sm:py-10">
+                <button mat-flat-button [routerLink]="['/face-verify']" class="w-full rounded-md sm:rounded-xl bg-[#ff0078] color: white; font-semibold py-5 sm:py-10">
                      <div class="w-full flex flex-row items-center tracking-tighter text-white">
                         <mat-icon [svgIcon]="'feather:thumbs-up'" class="sm:h-10 sm:w-10"></mat-icon>
                         <p class="pl-1 ms:pl-2 text-md sm:text-4xl">Confirm</p>
-                    </div>
-                </button>
-            </div>
-
-            <!-- Face Button-->
-            <div class="pt-4">                
-                <button mat-flat-button (click)="faceCameraOpen=true" class="w-full rounded-md sm:rounded-xl bg-[#ff0078] color: white; font-semibold py-5 sm:py-10">
-                     <div class="w-full flex flex-row items-center tracking-tighter text-white">
-                        <mat-icon [svgIcon]="'feather:paperclip'"  class="sm:h-10 sm:w-10"></mat-icon><p class="pl-1 ms:pl-2 text-md sm:text-4xl">Take Selfie Picture</p>
-                    </div>
-                </button>
-            </div>
-
-            <!-- Document Button-->
-            <div class="pt-4">                
-                <button mat-flat-button (click)="docCameraOpen=true" class="w-full rounded-md sm:rounded-xl bg-[#ff0078] color: white; font-semibold py-5 sm:py-10">
-                     <div class="w-full flex flex-row items-center tracking-tighter text-white">
-                        <mat-icon [svgIcon]="'feather:paperclip'"  class="sm:h-10 sm:w-10"></mat-icon><p class="pl-1 ms:pl-2 text-md sm:text-4xl">Take Document Picture</p>
                     </div>
                 </button>
             </div>
@@ -162,14 +142,4 @@
 @if(idCameraOpen){
     <!-- Capture ID -->
     <id-scanner (idCameraOpened)="noticeId($event)" (scannedData)="getData($event)" class="absolute inset-0 w-full h-full"></id-scanner>
-}
-
-@if(faceCameraOpen){
-    <!-- Capture Face -->
-    <face-scanner (faceCameraOpened)="noticeFace($event)" class="absolute inset-0 w-full h-full"></face-scanner>
-}
-
-@if(docCameraOpen){
-    <!-- Capture Doc  -->
-    <doc-scanner (docCameraOpened)="noticeDoc($event)" class="absolute inset-0 w-full h-full"></doc-scanner>
 }

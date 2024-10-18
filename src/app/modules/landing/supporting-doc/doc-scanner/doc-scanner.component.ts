@@ -3,7 +3,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { WebcamModule} from 'ngx-webcam';
 import { NgStyle, CommonModule} from '@angular/common'
-import { OCRService } from '../scanned-form.service';
+//import { OCRService } from '../scanned-form.service';
 import { firstValueFrom } from 'rxjs';
 
 @Component({
@@ -19,18 +19,20 @@ import { firstValueFrom } from 'rxjs';
   ],
 })
 
-// --------------------------------- !!! REQUIRE FULL MAKEOVER !!! ----------------------------------------
-
 export class DocScannerComponent implements AfterViewInit {
   @ViewChild('docVideo') docVideoElement;
   @Output() docCameraOpened = new EventEmitter<boolean>();
+  @Output() scannedDoc: EventEmitter<any> = new EventEmitter<any>();
 
   private cameraStream: MediaStream | null = null;
 
   errorPrompt = false;
   errorMessage = '';
   docPreviewOpened: boolean = false;
-  docImageData: string = null;
+  private docImageData1: string = null;
+  private docImageData2: string = null;
+  private docImageData3: string = null;
+  private captureCounter: number = 0;
 
   ngAfterViewInit(): void {
     this._startCamera();
@@ -48,14 +50,55 @@ export class DocScannerComponent implements AfterViewInit {
         canvas.width,
         canvas.height
     );
-    this.docImageData = canvas.toDataURL('image/png');
+
+    const capturedImageData = canvas.toDataURL('image/png');
+
+    // const xxx = canvas.toDataURL('image/png');
+    // let capturedImageData = xxx.replace(/^data:image\/(png|jpeg|jpg);base64,/, '');
+    
+    //  Counter Next
+    this.captureCounter++;
+
+    // Save the captured image based on the counter
+    if (this.captureCounter === 1) {
+      this.docImageData1 = capturedImageData;
+    } else if (this.captureCounter === 2) {
+      this.docImageData2 = capturedImageData;
+    } else if (this.captureCounter === 3) {
+      // Check for empty variables and save the new image
+      if (!this.docImageData1) {
+        this.docImageData1 = capturedImageData;
+      } else if (!this.docImageData2) {
+        this.docImageData2 = capturedImageData;
+      } else if (!this.docImageData3) {
+        this.docImageData3 = capturedImageData;
+      } else {      
+        // If all are filled, replace the third image
+        this.docImageData3 = capturedImageData;
+      }
+      this.captureCounter = 0; // Reset counter after three captures
+    }
+
+    let capturedDoc = {
+      docImageData1: this.docImageData1,
+      docImageData2: this.docImageData2,
+      docImageData3: this.docImageData3,
+    }
+
+    this.scannedDoc.emit(capturedDoc);
+
     this._stopCamera();
     this.docPreviewOpened = true; //Open Preview
 
-    // Close camera when image accepted
-    if (this.docImageData && this.docPreviewOpened) {
-        console.log('docImageData', this.docImageData);
-       
+    // Display captured image
+    if (capturedImageData) {
+      if (this.captureCounter == 1) {
+        console.log('Captured Image 1:', this.docImageData1);
+      } else if (this.captureCounter == 2) {
+        console.log('Captured Image 2:', this.docImageData2);
+      } else {
+        console.log('Captured Image 3:', this.docImageData3);
+      }
     } else {
         console.warn('Should Display Error');
     }
@@ -67,19 +110,9 @@ export class DocScannerComponent implements AfterViewInit {
     // Stop camera streaming
     this._stopCamera();
     this.docCameraOpened.emit(false);
-    
-    /*
-    if (type === 'continue' && this.faceImageData) {
-        this.retrieveIDFromOcr(this.idImageData);
-    } else {
-        // Send to parent open camera to false
-        this.faceCameraOpened.emit(false);
-    }*/
   }
 
-/**
- * Close preview
- */
+/* Close preview */
   closeDocPreview() {
     this.docPreviewOpened = false;
     this._startCamera();
@@ -92,7 +125,7 @@ export class DocScannerComponent implements AfterViewInit {
             this.errorPrompt = true;
             this.errorMessage = 'Camera not supported by this browser';
         }, 0);
-        return;
+        return; 
     }
 
     const docVideoElement: HTMLVideoElement = this.docVideoElement.nativeElement;
@@ -112,16 +145,14 @@ export class DocScannerComponent implements AfterViewInit {
     .catch((error) => {
         setTimeout(() => {
             this.errorPrompt = true;
-            this.errorMessage =
-                'Error Accessing Camera : ' + error.name;
+            this.errorMessage = 'Error Accessing Camera : ' + error.name;
         }, 0);
     });
   }
 
   private _stopCamera(): void {
     // Get the video element reference
-    const docVideoElement: HTMLVideoElement =
-        this.docVideoElement.nativeElement;
+    const docVideoElement: HTMLVideoElement = this.docVideoElement.nativeElement;
 
     // Stop the camera stream if it exists
     if (this.cameraStream) {

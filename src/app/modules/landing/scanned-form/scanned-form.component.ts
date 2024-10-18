@@ -9,8 +9,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { IdScannerComponent } from './id-scanner/id-scanner.component';
-import { DocScannerComponent } from './doc-scanner/doc-scanner.component';
-import { FaceScannerComponent } from './face-scanner/face-scanner.component';
 import { NgClass } from '@angular/common';
 import { WebcamModule } from 'ngx-webcam';
 import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
@@ -31,21 +29,16 @@ import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup 
         MatDatepickerModule,
         MatStepperModule,
         IdScannerComponent,
-        DocScannerComponent,
-        FaceScannerComponent,
         NgClass,
         WebcamModule,
         ReactiveFormsModule,
-        FormsModule
+        FormsModule,
   ],
   
 })
 export class LandingScannedFormComponent implements OnInit {
   
-  //'True' will instant open camera when come into page
   idCameraOpen: boolean = true; //true by default
-  docCameraOpen: boolean = false; 
-  faceCameraOpen: boolean = false; 
 
   scannedForm: UntypedFormGroup;
 
@@ -73,16 +66,6 @@ export class LandingScannedFormComponent implements OnInit {
   noticeId($event) {
     this.idCameraOpen = $event;
     console.log("Boolean:", $event, "- ID Camera Closed");
-  }
-  
-  noticeDoc($event) {
-    this.docCameraOpen = $event;
-    console.log("Boolean:", $event, "- Doc Camera Closed");
-  }
-  
-  noticeFace($event) {
-    this.faceCameraOpen = $event;
-    console.log("Boolean:", $event, "- Face Camera Closed");
   }
   
   getData($event) {
