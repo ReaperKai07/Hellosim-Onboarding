@@ -9,6 +9,7 @@
 
         <!-- Page Content -->
         <div class="w-screen h-screen px-8 py-4 sm:px-16 sm:py-8">
+            
             <!-- Title -->
             <h1 class="text-lg font-bold sm:text-4xl">Declaration</h1>
             <p class="text-sm sm:text-3xl pb-4 sm:pb-8">By updating my personal information through this portal, I hereby :</p>
@@ -51,7 +52,7 @@
 
             <!-- Submit Button-->
             <div class="pt-10">
-                <button mat-button [routerLink]="['/']" class="w-full rounded-md bg-[#ff0078] text-white font-semibold py-5 sm:py-10" [disabled]="!checkbox1.checked || !checkbox2.checked || !checkbox3.checked">
+                <button mat-button [routerLink]="['/home']" class="w-full rounded-md bg-[#ff0078] text-white font-semibold py-5 sm:py-10" [disabled]="!checkbox1.checked || !checkbox2.checked || !checkbox3.checked">
                     <p class="text-md sm:text-4xl">Submit</p>
                 </button>
             </div>

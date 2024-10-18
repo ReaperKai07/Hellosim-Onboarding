@@ -33,11 +33,9 @@ export class LandingSupportingDocComponent implements OnInit {
 
   constructor(
     private _formBuilder:UntypedFormBuilder,
-  ) {}
-
-  //docPreview1
-  //docPreview2
-  //docPreview3
+  ) {
+    
+  }
 
   ngOnInit(): void {
     this.scannedDoc = this._formBuilder.group({

@@ -79,25 +79,6 @@ export class IdScannerComponent implements AfterViewInit {
         // Close camera when image accepted
         if (this.idImageData && this.idPreviewOpened) {
             console.log('idImageData', this.idImageData);
-
-            // this.retrieveIDFromOcr(this.idImageData);
-
-            // try {
-            //     const croppedImage =
-            //         await this._ocrService.preprocessDocument(idImageData);
-            //     console.log('Cropped Image: ', croppedImage);
-            // } catch (err) {
-            //     console.log('Cropped err: ', err);
-            // }
-            // this.preprocessDocument(idImageData).then(
-            //     (croppedImage) => {
-            //         console.log('Cropped Image: ', croppedImage);
-            //         // Pass the cropped image to your OCR function here
-            //     },
-            //     (error) => {
-            //         console.error('Error during preprocessing: ', error);
-            //     }
-            // );
            
         } else {
             console.warn('Should Display Error');

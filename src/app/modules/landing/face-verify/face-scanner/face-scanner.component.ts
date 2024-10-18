@@ -64,13 +64,6 @@ export class FaceScannerComponent implements AfterViewInit{
     this._stopCamera();
     this.faceCameraOpened.emit(false);
     
-    /*
-    if (type === 'continue' && this.faceImageData) {
-        this.retrieveIDFromOcr(this.idImageData);
-    } else {
-        // Send to parent open camera to false
-        this.faceCameraOpened.emit(false);
-    }*/
   }
 
 /**

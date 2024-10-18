@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
-import { LandingFaceVerifyComponent } from 'app/modules/landing/face-verify/face-verify.component';
+import { FaceVerifyComponent } from 'app/modules/landing/face-verify/face-verify.component';
 
 export default [
     {
         path: '',
-        component: LandingFaceVerifyComponent,
+        component: FaceVerifyComponent,
     },
 ] as Routes;

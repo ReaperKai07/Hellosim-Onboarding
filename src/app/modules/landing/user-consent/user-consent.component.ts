@@ -32,7 +32,7 @@ import { FormsModule } from '@angular/forms';
         FormsModule
   ],
 })
-export class LandingUserConsentComponent {
+export class UserConsentComponent {
   checkbox1 = { checked: false };
   checkbox2 = { checked: false };
   checkbox3 = { checked: false };

@@ -11,8 +11,8 @@
         <div class="w-screen h-full p-4 sm:p-12">
             <h2 class="text-lg sm:text-4xl font-bold col-span-3 flex justify-start">Attached Suppoting Document(s):</h2>
             <p>Maximum 3</p>
-            
             <div class="grid grid-cols-2 sm:grid-cols-3 items-center justify-between pt-4 gap-4">
+                
                 <!-- Supporting Document 1 -->
                 @if (supDoc1) {
                     <div class="w-auto h-50 rounded-lg p-4 border border-black bg-white">
@@ -21,6 +21,7 @@
                         </div>
                     </div>
                 }
+                
                 <!-- Supporting Document 2 -->
                 @if (supDoc2) {
                     <div class="w-auto h-50 rounded-lg p-4 border border-black bg-white">
@@ -29,6 +30,7 @@
                         </div>
                     </div>
                 }
+                
                 <!-- Supporting Document 3 -->
                 @if (supDoc3) {
                     <div class="w-auto h-50 rounded-lg p-4 border border-black bg-white">
@@ -37,6 +39,7 @@
                         </div>
                     </div>
                 }
+
             </div>
         </div>
 
@@ -62,7 +65,6 @@
 
                         <!-- Preview -->
                         <div class="bg-[#ffeaf4] w-full h-100 rounded-lg p-4">
-                            <!-- Image Preview -->
                             <div class="bg-red w-full h-full rounded-lg">
                                 <!-- <img [src]="idImageData" alt="Captured Image"> -->
                             </div>
@@ -96,6 +98,7 @@
 
         <!-- Bottom Button -->
         <div class="w-screen h-auto bottom-0 p-4">
+
             <!-- Limit Reminder -->
             @if (supDoc1 && supDoc2 && supDoc3) {
                 <div class="w-full h-auto rounded-lg mb-4 p-4 border  bg-blue-100">
@@ -121,8 +124,8 @@
                    <p class="pl-1 ms:pl-2 text-md sm:text-4xl text-[#ff0078]">Capture More</p>
                </div>
            </button>
+
         </div>
-        
     </div>
 </div>
 

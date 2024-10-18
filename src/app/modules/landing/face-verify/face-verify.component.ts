@@ -19,7 +19,7 @@ import { FaceScannerComponent } from './face-scanner/face-scanner.component';
     NgClass,
   ],
 })
-export class LandingFaceVerifyComponent {
+export class FaceVerifyComponent {
   
   faceCameraOpen: boolean = true; //true by default
 

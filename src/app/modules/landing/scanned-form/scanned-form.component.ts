@@ -36,7 +36,7 @@ import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup 
   ],
   
 })
-export class LandingScannedFormComponent implements OnInit {
+export class ScannedFormComponent implements OnInit {
   
   idCameraOpen: boolean = true; //true by default
 

@@ -3,7 +3,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { WebcamModule} from 'ngx-webcam';
 import { NgStyle, CommonModule} from '@angular/common'
-//import { OCRService } from '../scanned-form.service';
 import { firstValueFrom } from 'rxjs';
 
 @Component({

@@ -1,10 +1,9 @@
 import { Routes } from '@angular/router';
-import { LandingUserConsentComponent } from './user-consent.component';
-LandingUserConsentComponent
+import { UserConsentComponent } from './user-consent.component';
 
 export default [
     {
         path: '',
-        component: LandingUserConsentComponent,
+        component: UserConsentComponent,
     },
 ] as Routes;

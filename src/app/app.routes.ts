@@ -10,7 +10,7 @@ import { LayoutComponent } from 'app/layout/layout.component';
 export const appRoutes: Route[] = [
 
     // Redirect empty path to '/example'
-    {path: '', pathMatch : 'full', redirectTo: 'start'},
+    {path: '', pathMatch : 'full', redirectTo: 'home'},
 
     // Redirect signed-in user to the '/example'
     //
@@ -60,8 +60,8 @@ export const appRoutes: Route[] = [
             layout: 'empty'
         },
         children: [
-            {path: 'start', loadChildren: () => import('app/modules/landing/start/start.routes')},
             {path: 'home', loadChildren: () => import('app/modules/landing/home/home.routes')},
+            {path: 'instruction', loadChildren: () => import('app/modules/landing/instruction/instruction.routes')},
             {path: 'scanned-form', loadChildren: () => import('app/modules/landing/scanned-form/scanned-form.routes')},
             {path: 'supporting-doc', loadChildren: () => import('app/modules/landing/supporting-doc/supporting-doc.routes')},
             {path: 'face-verify', loadChildren: () => import('app/modules/landing/face-verify/face-verify.routes')},
