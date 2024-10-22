@@ -2,41 +2,60 @@
     <div class="bg-white w-full flex flex-col items-center"> <!-- Range -->
         
         <!-- Title Card & Back Button-->
-        <div class="bg-white shadow-md p-4 flex flex-row items-between top-0 h-14 sm:h-20 w-full"> 
+        <div class="absolute z-99 h-14 sm:h-20 w-full top-0 bg-white shadow-md p-4 flex flex-row items-between"> 
             <a href="/face-verify" class="flex justify-center w-8 items-center"><mat-icon class="text-black text-2xl sm:text-6xl">arrow_back</mat-icon></a>
             <h2 class="col-span-4 text-lg font-bold w-full text-center sm:text-4xl">Register SIM Card</h2>
         </div>
 
         <!-- Page Content -->
         <div class="w-screen h-full p-4 sm:p-12">
-            <h2 class="text-lg sm:text-4xl font-bold col-span-3 flex justify-start">Attached Suppoting Document(s):</h2>
+            <h2 class="text-lg sm:text-4xl font-bold col-span-3 flex justify-start pt-14 sm:pt:20">Attached Suppoting Document(s):</h2>
             <p>Maximum 3</p>
+            
             <div class="grid grid-cols-2 sm:grid-cols-3 items-center justify-between pt-4 gap-4">
                 
                 <!-- Supporting Document 1 -->
-                @if (supDoc1) {
-                    <div class="w-auto h-50 rounded-lg p-4 border border-black bg-white">
+                @if (scannedDoc.get('docImageData1').value) {
+                    <div class="relative w-auto h-50 rounded-lg p-4 border border-black bg-white">
+                        <div class="flex justify-center items-center absolute w-8 h-8 top-2 right-2 bg-red-500 rounded-full p-1">
+                            <button (click)="deleteDocument('docImageData1')" class="flex w-full text-white">
+                                <mat-icon class="text-white">delete</mat-icon>
+                            </button>
+                        </div>
                         <div class="w-full h-full bg-[#ffeaf4] flex items-center justify-center" (click)="docPreview=true">
                             <img [src]="scannedDoc.get('docImageData1').value" alt="Document 1">
                         </div>
+                        Image 1
                     </div>
                 }
-                
+
                 <!-- Supporting Document 2 -->
-                @if (supDoc2) {
-                    <div class="w-auto h-50 rounded-lg p-4 border border-black bg-white">
+                @if (scannedDoc.get('docImageData2').value) {
+                    <div class="relative w-auto h-50 rounded-lg p-4 border border-black bg-white">
+                        <div class="flex justify-center items-center absolute w-8 h-8 top-2 right-2 bg-red-500 rounded-full p-1">
+                            <button (click)="deleteDocument('docImageData2')" class="flex w-full text-white">
+                                <mat-icon class="text-white">delete</mat-icon>
+                            </button>
+                        </div>
                         <div class="w-full h-full bg-[#ffeaf4] flex items-center justify-center" (click)="docPreview=true">
                             <img [src]="scannedDoc.get('docImageData2').value" alt="Document 2">
                         </div>
+                        Image 2
                     </div>
                 }
-                
+
                 <!-- Supporting Document 3 -->
-                @if (supDoc3) {
-                    <div class="w-auto h-50 rounded-lg p-4 border border-black bg-white">
+                @if (scannedDoc.get('docImageData3').value) {
+                    <div class="relative w-auto h-50 rounded-lg p-4 border border-black bg-white">
+                        <div class="flex justify-center items-center absolute w-8 h-8 top-2 right-2 bg-red-500 rounded-full p-1">
+                            <button (click)="deleteDocument('docImageData3')" class="flex w-full text-white">
+                                <mat-icon class="text-white">delete</mat-icon>
+                            </button>
+                        </div>
                         <div class="w-full h-full bg-[#ffeaf4] flex items-center justify-center" (click)="docPreview=true">
                             <img [src]="scannedDoc.get('docImageData3').value" alt="Document 3">
                         </div>
+                        Image 3
                     </div>
                 }
 
@@ -100,7 +119,7 @@
         <div class="w-screen h-auto bottom-0 p-4">
 
             <!-- Limit Reminder -->
-            @if (supDoc1 && supDoc2 && supDoc3) {
+            @if (scannedDoc.get('docImageData1').value && scannedDoc.get('docImageData2').value && scannedDoc.get('docImageData3').value) {
                 <div class="w-full h-auto rounded-lg mb-4 p-4 border  bg-blue-100">
                     <div class="w-full flex flex-row items-center">
                         <mat-icon svgIcon="info" class="text-blue-800 icon-size-6 sm:icon-size-12"></mat-icon>

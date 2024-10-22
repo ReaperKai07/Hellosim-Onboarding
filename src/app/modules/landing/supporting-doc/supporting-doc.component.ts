@@ -4,7 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 import { DocScannerComponent } from './doc-scanner/doc-scanner.component';
 import { WebcamModule } from 'ngx-webcam';
-import { NgClass } from '@angular/common';
+import { CommonModule, NgClass, NgStyle } from '@angular/common';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 
 @Component({
@@ -13,21 +13,21 @@ import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
   standalone: true,
   imports: [
     MatButtonModule,
+    MatIconModule,
     RouterLink,
     MatIconModule,
     DocScannerComponent,
     WebcamModule,
     NgClass,
+    NgStyle,
+    CommonModule
   ],
 
 })
 export class LandingSupportingDocComponent implements OnInit {
 
-  docCameraOpen: boolean = true;
-  supDoc1: boolean = true;
-  supDoc2: boolean = true;
-  supDoc3: boolean = true;
-  docPreview: boolean = false;
+  docCameraOpen: boolean = true; //True by default
+  docPreview: boolean = false; //False by default
 
   scannedDoc: UntypedFormGroup;
 
@@ -43,6 +43,10 @@ export class LandingSupportingDocComponent implements OnInit {
       docImageData2: [''],
       docImageData3: [''],
     })
+  }
+
+  deleteDocument(docKey: string) {
+    this.scannedDoc.get(docKey).setValue('');
   }
 
   noticeDoc($event) {

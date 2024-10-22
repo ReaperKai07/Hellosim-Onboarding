@@ -3,7 +3,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { ChangeDetectorRef, Component, OnChanges, SimpleChanges, ViewEncapsulation, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { RouterLink } from '@angular/router';
+import { RouterLink, Router } from '@angular/router';
 import { MatFormField } from '@angular/material/form-field';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
@@ -12,6 +12,7 @@ import { IdScannerComponent } from './id-scanner/id-scanner.component';
 import { NgClass } from '@angular/common';
 import { WebcamModule } from 'ngx-webcam';
 import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { SessionService } from 'app/session.service';
 
 @Component({
   selector: 'app-scanned-form',
@@ -43,8 +44,10 @@ export class ScannedFormComponent implements OnInit {
   scannedForm: UntypedFormGroup;
 
   constructor(
+    private sessionService: SessionService,
+    private router: Router,
     private _formBuilder:UntypedFormBuilder,
-    private _changeDetectorRef: ChangeDetectorRef
+    private _changeDetectorRef: ChangeDetectorRef,
   ) {}
 
   ngOnInit():void{
@@ -58,20 +61,37 @@ export class ScannedFormComponent implements OnInit {
       city: [{ value: '', disabled: true }],
       state: [{ value: '', disabled: true }],
       country: [{ value: '', disabled: true }],
-      nationality: [{ value: 'MALAYSIA', disabled: true }],
+      nationality: [{ value: 'MALAYSIA', disabled: true }], //Hardcode MALAYSIA
       //contact: [''],
     })
   }
 
+  //Notify camera close
   noticeId($event) {
     this.idCameraOpen = $event;
     console.log("Boolean:", $event, "- ID Camera Closed");
   }
   
+  //Notify API data Received
   getData($event) {
     console.log("received",$event);
     if($event){
       this.scannedForm.patchValue($event)
+    }
+  }
+
+  userCheck() {   
+    //If foreigner, go to supporting-doc
+    if (this.sessionService.getUserType() === 'foreigner') {
+      this.router.navigate(['/supporting-doc']);
+    } 
+    //If local, go to face-verify
+    else if (this.sessionService.getUserType() === 'local') {
+      this.router.navigate(['/face-verify']);
+    } 
+    //Should popup null session error
+    else {
+      console.log("UserType is undefined or invalid");
     }
   }
 

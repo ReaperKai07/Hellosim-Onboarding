@@ -4,6 +4,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { WebcamModule} from 'ngx-webcam';
 import { NgStyle, CommonModule} from '@angular/common'
 import { firstValueFrom } from 'rxjs';
+import { SessionService } from 'app/session.service';
+
 
 @Component({
   selector: 'doc-scanner',
@@ -14,7 +16,7 @@ import { firstValueFrom } from 'rxjs';
     MatButtonModule,
     WebcamModule,
     NgStyle,
-    CommonModule
+    CommonModule,
   ],
 })
 
@@ -23,11 +25,13 @@ export class DocScannerComponent implements AfterViewInit {
   @Output() docCameraOpened = new EventEmitter<boolean>();
   @Output() scannedDoc: EventEmitter<any> = new EventEmitter<any>();
 
+  constructor(private sessionService: SessionService) {}
+
   private cameraStream: MediaStream | null = null;
 
   errorPrompt = false;
   errorMessage = '';
-  docPreviewOpened: boolean = false;
+
   private docImageData1: string = null;
   private docImageData2: string = null;
   private docImageData3: string = null;
@@ -47,31 +51,22 @@ export class DocScannerComponent implements AfterViewInit {
     );
 
     const capturedImageData = canvas.toDataURL('image/png');
-
-    // const xxx = canvas.toDataURL('image/png');
-    // let capturedImageData = xxx.replace(/^data:image\/(png|jpeg|jpg);base64,/, '');
     
-    //  Counter Next
-    this.captureCounter++;
-
-    // Save the captured image based on the counter
-    if (this.captureCounter === 1) {
+    // this.captureCounter++; //Counter Next
+    
+    if (!this.docImageData1) {
       this.docImageData1 = capturedImageData;
-    } else if (this.captureCounter === 2) {
+      this.sessionService.setImageDoc1(capturedImageData)
+    } else if (!this.docImageData2) {
       this.docImageData2 = capturedImageData;
-    } else if (this.captureCounter === 3) {
-      // Check for empty variables and save the new image
-      if (!this.docImageData1) {
-        this.docImageData1 = capturedImageData;
-      } else if (!this.docImageData2) {
-        this.docImageData2 = capturedImageData;
-      } else if (!this.docImageData3) {
-        this.docImageData3 = capturedImageData;
-      } else {      
-        // If all are filled, replace the third image
-        this.docImageData3 = capturedImageData;
-      }
-      this.captureCounter = 0; // Reset counter after three captures
+      this.sessionService.setImageDoc2(capturedImageData)
+    } else if (!this.docImageData3) {
+      this.docImageData3 = capturedImageData;
+      this.sessionService.setImageDoc3(capturedImageData)
+    } else {      
+      // If all are filled, replace the third image
+      this.docImageData3 = capturedImageData;
+      this.sessionService.setImageDoc3(capturedImageData)
     }
 
     let capturedDoc = {
@@ -82,8 +77,7 @@ export class DocScannerComponent implements AfterViewInit {
 
     this.scannedDoc.emit(capturedDoc);
 
-    this._stopCamera();
-    this.docPreviewOpened = true; //Open Preview
+    this.closeDocCamera()
 
     // Display captured image
     if (capturedImageData) {
@@ -105,12 +99,6 @@ export class DocScannerComponent implements AfterViewInit {
     // Stop camera streaming
     this._stopCamera();
     this.docCameraOpened.emit(false);
-  }
-
-/* Close preview */
-  closeDocPreview() {
-    this.docPreviewOpened = false;
-    this._startCamera();
   }
 
   private _startCamera(): void {

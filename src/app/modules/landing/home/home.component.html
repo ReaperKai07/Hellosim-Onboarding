@@ -3,7 +3,7 @@
 
         <!-- Title Card & Back -->
         <div class="bg-white shadow-md p-4 flex flex-row items-between top-0 h-14 sm:h-20 w-full"> 
-            <a href="/home" class="flex justify-center w-8 items-center"><mat-icon class="text-black text-2xl sm:text-6xl">arrow_back</mat-icon></a>
+            <a [routerLink]="['/home']" class="flex justify-center w-8 items-center"><mat-icon class="text-black text-2xl sm:text-6xl">arrow_back</mat-icon></a>
             <h2 class="col-span-4 text-lg font-bold w-full text-center sm:text-4xl">Register SIM Card</h2>
         </div>
 
@@ -18,14 +18,14 @@
                 <div class="grid grid-cols-2 items-center justify-between gap-6">
                     
                     <!-- Choose Foreigner Passport -->
-                    <button mat-button [routerLink]="['/instruction']" class="w-auto min-h-20 rounded-md bg-[#ff0078] text-white font-semibold py-5 sm:py-10">
+                    <button mat-button (click)="registerForeigner()" [routerLink]="['/instruction']" class="w-auto min-h-20 rounded-md bg-[#ff0078] text-white font-semibold py-5 sm:py-10">
                         <div class="w-full flex flex-row items-center">
                             <p class="pl-1 ms:pl-2 text-md sm:text-4xl">Passport</p>
                         </div>
                     </button>
                     
                     <!-- Choose Foreigner iKad -->
-                    <button mat-button [routerLink]="['/instruction']" class="w-auto min-h-20 rounded-md bg-[#ff0078] text-white font-semibold py-5 sm:py-10">
+                    <button mat-button (click)="registerForeigner()" [routerLink]="['/instruction']" class="w-auto min-h-20 rounded-md bg-[#ff0078] text-white font-semibold py-5 sm:py-10">
                         <div class="w-full flex flex-row items-center">
                             <p class="pl-1 ms:pl-2 text-md sm:text-4xl">iKad</p>
                         </div>
@@ -34,27 +34,27 @@
                 </div>
             </div>
 
-            <!-- Foreigner -->
+            <!-- Local -->
             <div class="w-full my-4 sm:my-8 p-4 sm:p-8 rounded-xl sm:rounded-3xl bg-[#ffeaf4] border border-gray-300 shadow overflow-hidden">
                 <h1 class="pb-4 text-lg font-bold sm:text-4xl text-center">LOCAL</h1>
                 <div class="grid grid-cols-2 sm:grid-cols-3 items-center justify-between gap-6">
                     
                     <!-- Choose Local MyKad -->
-                    <button mat-button [routerLink]="['/instruction']" class="w-auto min-h-20 rounded-md bg-[#ff0078] text-white font-semibold py-5 sm:py-10">
+                    <button mat-button (click)="registerLocal()" [routerLink]="['/instruction']" class="w-auto min-h-20 rounded-md bg-[#ff0078] text-white font-semibold py-5 sm:py-10">
                         <div class="w-full flex flex-row items-center">
                             <p class="pl-1 ms:pl-2 text-md sm:text-4xl">MyKad</p>
                         </div>
                     </button>
 
                     <!-- Choose Local MyTentera -->
-                    <button mat-button [routerLink]="['/instruction']" class="w-auto min-h-20 rounded-md bg-[#ff0078] text-white font-semibold py-5 sm:py-10">
+                    <button mat-button (click)="registerLocal()" [routerLink]="['/instruction']" class="w-auto min-h-20 rounded-md bg-[#ff0078] text-white font-semibold py-5 sm:py-10">
                         <div class="w-full flex flex-row items-center">
                             <p class="pl-1 ms:pl-2 text-md sm:text-4xl">MyTentera</p>
                         </div>
                     </button>
 
                     <!-- Choose Local MyPR -->
-                    <button mat-button [routerLink]="['/instruction']" class="w-auto min-h-20 rounded-md bg-[#ff0078] text-white font-semibold py-5 sm:py-10">
+                    <button mat-button (click)="registerLocal()" [routerLink]="['/instruction']" class="w-auto min-h-20 rounded-md bg-[#ff0078] text-white font-semibold py-5 sm:py-10">
                         <div class="w-full flex flex-row items-center">
                             <p class="pl-1 ms:pl-2 text-md sm:text-4xl">MyPR</p>
                         </div>

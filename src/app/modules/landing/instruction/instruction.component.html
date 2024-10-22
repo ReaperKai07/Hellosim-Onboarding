@@ -3,7 +3,7 @@
         
         <!-- Title Card & Back -->
         <div class="bg-white shadow-md p-4 flex flex-row items-between top-0 h-14 sm:h-20 w-full"> 
-            <a href="/home" class="flex justify-center w-8 items-center"><mat-icon class="text-black text-2xl sm:text-6xl">arrow_back</mat-icon></a>
+            <a [routerLink]="['/home']" class="flex justify-center w-8 items-center"><mat-icon class="text-black text-2xl sm:text-6xl">arrow_back</mat-icon></a>
             <h2 class="col-span-4 text-lg font-bold w-full text-center sm:text-4xl">Register SIM Card</h2>
         </div>
 
@@ -79,9 +79,9 @@
             <div class="text-center text-xs sm:text-lg px-4 sm:px-12 pb-4 sm:pb-12">
                 <p>Your information is safe with us. By proceeding, you acknowledge that you have read and accepted the HelloSIM
                     <!--Privacy Note Link-->
-                    <a href="#" class="font-bold text-[#ff0078]"> Privacy Notice</a> and 
+                    <a [routerLink]="['#']" class="font-bold text-[#ff0078]"> Privacy Notice</a> and 
                     <!--Terms & Conditions Link-->
-                    <a href="#" class="font-bold text-[#ff0078]">Terms & Conditions</a> and you hereby consent
+                    <a [routerLink]="['#']" class="font-bold text-[#ff0078]">Terms & Conditions</a> and you hereby consent
                 to HelloSIM collection, processing and using your personal data.</p>
             </div>
 
