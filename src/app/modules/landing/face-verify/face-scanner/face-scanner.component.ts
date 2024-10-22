@@ -38,13 +38,13 @@ export class FaceScannerComponent implements AfterViewInit{
     canvas.height = this.faceVideoElement.nativeElement.videoHeight;
     const ctx = canvas.getContext('2d');
     ctx.drawImage(
-        this.faceVideoElement.nativeElement,
-        0,
-        0,
-        canvas.width,
-        canvas.height
+        this.faceVideoElement.nativeElement, 0, 0, canvas.width, canvas.height
     );
     this.faceImageData = canvas.toDataURL('image/png');
+
+    let capturedFace = {
+
+    }
     this._stopCamera();
     this.facePreviewOpened = true; //Open Preview
 
@@ -111,7 +111,7 @@ export class FaceScannerComponent implements AfterViewInit{
     // Get the video element reference
     const faceVideoElement: HTMLVideoElement =
         this.faceVideoElement.nativeElement;
-
+        
     // Stop the camera stream if it exists
     if (this.cameraStream) {
         this.cameraStream.getTracks().forEach((track) => track.stop());

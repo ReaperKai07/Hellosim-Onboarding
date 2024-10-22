@@ -43,11 +43,7 @@ export class DocScannerComponent implements AfterViewInit {
     canvas.height = this.docVideoElement.nativeElement.videoHeight;
     const ctx = canvas.getContext('2d');
     ctx.drawImage(
-        this.docVideoElement.nativeElement,
-        0,
-        0,
-        canvas.width,
-        canvas.height
+        this.docVideoElement.nativeElement, 0, 0, canvas.width, canvas.height
     );
 
     const capturedImageData = canvas.toDataURL('image/png');
