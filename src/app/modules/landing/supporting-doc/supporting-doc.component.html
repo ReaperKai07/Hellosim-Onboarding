@@ -15,54 +15,51 @@
             <div class="grid grid-cols-2 sm:grid-cols-3 items-center justify-between pt-4 gap-4">
                 
                 <!-- Supporting Document 1 -->
-                @if (scannedDoc.get('docImageData1').value) {
+                @if (sessionService.getImageDoc1()) {
                     <div class="relative w-auto h-50 rounded-lg p-4 border border-black bg-white">
                         <div class="flex justify-center items-center absolute w-8 h-8 top-2 right-2 bg-red-500 rounded-full p-1">
-                            <button (click)="deleteDocument('docImageData1')" class="flex w-full text-white">
+                            <button (click)="deleteDocument(1)" class="flex w-full text-white">
                                 <mat-icon class="text-white">delete</mat-icon>
                             </button>
                         </div>
                         <div class="w-full h-full bg-[#ffeaf4] flex items-center justify-center" (click)="docPreview=true">
-                            <img [src]="scannedDoc.get('docImageData1').value" alt="Document 1">
+                            <img [src]="sessionService.getImageDoc1()" alt="Document 1">
                         </div>
-                        Image 1
                     </div>
                 }
 
                 <!-- Supporting Document 2 -->
-                @if (scannedDoc.get('docImageData2').value) {
+                @if (sessionService.getImageDoc2()) {
                     <div class="relative w-auto h-50 rounded-lg p-4 border border-black bg-white">
                         <div class="flex justify-center items-center absolute w-8 h-8 top-2 right-2 bg-red-500 rounded-full p-1">
-                            <button (click)="deleteDocument('docImageData2')" class="flex w-full text-white">
+                            <button (click)="deleteDocument(2)" class="flex w-full text-white">
                                 <mat-icon class="text-white">delete</mat-icon>
                             </button>
                         </div>
                         <div class="w-full h-full bg-[#ffeaf4] flex items-center justify-center" (click)="docPreview=true">
-                            <img [src]="scannedDoc.get('docImageData2').value" alt="Document 2">
+                            <img [src]="sessionService.getImageDoc2()" alt="Document 2">
                         </div>
-                        Image 2
                     </div>
                 }
 
                 <!-- Supporting Document 3 -->
-                @if (scannedDoc.get('docImageData3').value) {
+                @if (sessionService.getImageDoc3()) {
                     <div class="relative w-auto h-50 rounded-lg p-4 border border-black bg-white">
                         <div class="flex justify-center items-center absolute w-8 h-8 top-2 right-2 bg-red-500 rounded-full p-1">
-                            <button (click)="deleteDocument('docImageData3')" class="flex w-full text-white">
+                            <button (click)="deleteDocument(3)" class="flex w-full text-white">
                                 <mat-icon class="text-white">delete</mat-icon>
                             </button>
                         </div>
                         <div class="w-full h-full bg-[#ffeaf4] flex items-center justify-center" (click)="docPreview=true">
-                            <img [src]="scannedDoc.get('docImageData3').value" alt="Document 3">
+                            <img [src]="sessionService.getImageDoc3()" alt="Document 3">
                         </div>
-                        Image 3
                     </div>
                 }
 
             </div>
         </div>
 
-        <!-- Preview Prompt -->
+        <!-- Preview Prompt  !!! PENDING !!! -->
         @if (docPreview) {
             <div class="absolute z-30 h-full w-full bg-white">
 
@@ -119,7 +116,7 @@
         <div class="w-screen h-auto bottom-0 p-4">
 
             <!-- Limit Reminder -->
-            @if (scannedDoc.get('docImageData1').value && scannedDoc.get('docImageData2').value && scannedDoc.get('docImageData3').value) {
+            @if (sessionService.getImageDoc1() && sessionService.getImageDoc2() && sessionService.getImageDoc3()) {
                 <div class="w-full h-auto rounded-lg mb-4 p-4 border  bg-blue-100">
                     <div class="w-full flex flex-row items-center">
                         <mat-icon svgIcon="info" class="text-blue-800 icon-size-6 sm:icon-size-12"></mat-icon>
@@ -134,15 +131,17 @@
                    <!-- <mat-icon [svgIcon]="'feather:thumbs-up'" class="sm:h-10 sm:w-10"></mat-icon> -->
                    <p class="pl-1 ms:pl-2 text-md sm:text-4xl">Proceed</p>
                </div>
-           </button>
-           
-           <!-- Capture More Button -->
-           <button mat-stroked-button (click)="docCameraOpen=true" class="w-full border-1 border-black rounded-md sm:rounded-xl bg-white font-semibold py-5 sm:py-10">
+            </button>
+
+            @if (!sessionService.getImageDoc1() || !sessionService.getImageDoc2() || !sessionService.getImageDoc3()) {
+            <!-- Capture More Button -->
+            <button mat-stroked-button (click)="docCameraOpen=true" class="w-full border-1 border-black rounded-md sm:rounded-xl bg-white font-semibold py-5 sm:py-10">
                 <div class="w-full flex flex-row items-center tracking-tighter text-white">
-                   <!-- <mat-icon [svgIcon]="'feather:thumbs-up'" class="sm:h-10 sm:w-10"></mat-icon> -->
-                   <p class="pl-1 ms:pl-2 text-md sm:text-4xl text-[#ff0078]">Capture More</p>
-               </div>
-           </button>
+                    <!-- <mat-icon [svgIcon]="'feather:thumbs-up'" class="sm:h-10 sm:w-10"></mat-icon> -->
+                    <p class="pl-1 ms:pl-2 text-md sm:text-4xl text-[#ff0078]">Capture More</p>
+                </div>
+            </button>
+            }
 
         </div>
     </div>
@@ -151,5 +150,5 @@
 
 @if(docCameraOpen){
     <!-- Capture Doc -->
-    <doc-scanner (docCameraOpened)="noticeDoc($event)" (scannedDoc)="getData($event)" class="absolute inset-0 w-full h-full"></doc-scanner>
+    <doc-scanner (docCameraOpened)="noticeDoc($event)" class="absolute inset-0 w-full h-full"></doc-scanner>
 }

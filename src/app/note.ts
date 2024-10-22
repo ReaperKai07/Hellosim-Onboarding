@@ -23,6 +23,7 @@ import { SessionService } from 'app/session.service';
 export class DocScannerComponent implements AfterViewInit {
   @ViewChild('docVideo') docVideoElement;
   @Output() docCameraOpened = new EventEmitter<boolean>();
+  @Output() scannedDoc: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(private sessionService: SessionService) {}
 
@@ -30,7 +31,11 @@ export class DocScannerComponent implements AfterViewInit {
 
   errorPrompt = false;
   errorMessage = '';
-  private current: number = 0;
+
+  private docImageData1: string = null;
+  private docImageData2: string = null;
+  private docImageData3: string = null;
+  private captureCounter: number = 0;
 
   ngAfterViewInit(): void {
     this._startCamera();
@@ -47,35 +52,41 @@ export class DocScannerComponent implements AfterViewInit {
 
     const capturedImageData = canvas.toDataURL('image/png');
     
-    //this.captureCounter++; Counter Next
+    // this.captureCounter++; //Counter Next
     
-    if (!this.sessionService.getImageDoc1()) {
+    if (!this.docImageData1) {
+      this.docImageData1 = capturedImageData;
       this.sessionService.setImageDoc1(capturedImageData)
-      this.current = 1;
-    } else if (!this.sessionService.getImageDoc2()) {
+    } else if (!this.docImageData2) {
+      this.docImageData2 = capturedImageData;
       this.sessionService.setImageDoc2(capturedImageData)
-      this.current = 2;
-    } else if (!this.sessionService.getImageDoc3()) {
+    } else if (!this.docImageData3) {
+      this.docImageData3 = capturedImageData;
       this.sessionService.setImageDoc3(capturedImageData)
-      this.current = 3;
-    } else {
-      console.log("All Slot is Occupied. Delete an Image.");
-
-      
+    } else {      
+      // If all are filled, replace the third image
+      this.docImageData3 = capturedImageData;
+      this.sessionService.setImageDoc3(capturedImageData)
     }
+
+    let capturedDoc = {
+      docImageData1: this.docImageData1,
+      docImageData2: this.docImageData2,
+      docImageData3: this.docImageData3,
+    }
+
+    this.scannedDoc.emit(capturedDoc);
 
     this.closeDocCamera()
 
     // Display captured image
     if (capturedImageData) {
-      if (this.current = 1) {
-        console.log('Captured Image 1:', this.sessionService.getImageDoc1());
-      } else if (this.current == 2) {
-        console.log('Captured Image 2:', this.sessionService.getImageDoc2());
-      } else if (this.current == 3) {
-        console.log('Captured Image 3:', this.sessionService.getImageDoc3());
+      if (this.captureCounter == 1) {
+        console.log('Captured Image 1:', this.docImageData1);
+      } else if (this.captureCounter == 2) {
+        console.log('Captured Image 2:', this.docImageData2);
       } else {
-        console.log('Current Counter Error');
+        console.log('Captured Image 3:', this.docImageData3);
       }
     } else {
         console.warn('Should Display Error');
