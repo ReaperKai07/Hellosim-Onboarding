@@ -126,7 +126,7 @@
             }
 
             <!-- Proceed Button -->
-            <button mat-flat-button [routerLink]="['/user-consent']" class="mb-4 w-full rounded-md sm:rounded-xl bg-[#ff0078] text-white font-semibold py-5 sm:py-10">
+            <button mat-flat-button [routerLink]="['/user-consent']" class="mb-4 w-full rounded-md sm:rounded-xl bg-[#ff0078] text-white font-semibold py-5 sm:py-10" [disabled]="!sessionService.getImageDoc1() && !sessionService.getImageDoc2() && !sessionService.getImageDoc3()">
                 <div class="w-full flex flex-row items-center tracking-tighter text-white">
                    <!-- <mat-icon [svgIcon]="'feather:thumbs-up'" class="sm:h-10 sm:w-10"></mat-icon> -->
                    <p class="pl-1 ms:pl-2 text-md sm:text-4xl">Proceed</p>
@@ -141,7 +141,7 @@
                     <p class="pl-1 ms:pl-2 text-md sm:text-4xl text-[#ff0078]">Capture More</p>
                 </div>
             </button>
-            }
+            }            
 
         </div>
     </div>
