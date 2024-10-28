@@ -1,12 +1,13 @@
-import { NgStyle, CommonModule } from '@angular/common';
-import { AfterViewInit, Component, EventEmitter, Output, ViewChild, inject } from '@angular/core';
+import { CommonModule, NgStyle } from '@angular/common';
+import { AfterViewInit, Component, EventEmitter, Output, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { WebcamModule } from 'ngx-webcam';
+import { SessionService } from 'app/session.service';
 
 @Component({
-  selector: 'face-scanner',
-  templateUrl: './face-scanner.component.html',
+  selector: 'barcode-scanner',
+  templateUrl: './barcode-scanner.component.html',
   standalone: true,
   imports: [
     MatIconModule,
@@ -17,57 +18,58 @@ import { WebcamModule } from 'ngx-webcam';
   ],
 })
 
-export class FaceScannerComponent implements AfterViewInit{
-  @ViewChild('faceVideo') faceVideoElement;
-  @Output() faceCameraOpened = new EventEmitter<boolean>();
+export class BarcodeScannerComponent implements AfterViewInit{
+  @ViewChild('barcodeVideo') barcodeVideoElement;
+  @Output() barcodeCameraOpened = new EventEmitter<boolean>();
 
   private cameraStream: MediaStream | null = null;
 
   errorPrompt = false;
   errorMessage = '';
-  facePreviewOpened: boolean = false;
-  faceImageData: string = null;
+  barcodePreviewOpened: boolean = false;
+  barcodeImageData: string = null;
+
+  constructor( public sessionService: SessionService ) {}
 
   ngAfterViewInit(): void {
     this._startCamera();
   }
 
-  async captureFaceImage() {
+  async captureBarcodeImage() {
     const canvas = document.createElement('canvas');
-    canvas.width = this.faceVideoElement.nativeElement.videoWidth;
-    canvas.height = this.faceVideoElement.nativeElement.videoHeight;
+    canvas.width = this.barcodeVideoElement.nativeElement.videoWidth;
+    canvas.height = this.barcodeVideoElement.nativeElement.videoHeight;
     const ctx = canvas.getContext('2d');
     ctx.drawImage(
-        this.faceVideoElement.nativeElement, 0, 0, canvas.width, canvas.height
+        this.barcodeVideoElement.nativeElement, 0, 0, canvas.width, canvas.height
     );
-    this.faceImageData = canvas.toDataURL('image/png');
+    this.barcodeImageData = canvas.toDataURL('image/png');
+
+    //Store barcode into SessionService
+    this.sessionService.setBarcode(this.barcodeImageData);
 
     this._stopCamera();
 
-    this.facePreviewOpened = true; //Open Preview
+    this.barcodePreviewOpened = true; //Open Preview
 
     // Close camera when image accepted
-    if (this.faceImageData && this.facePreviewOpened) {
-        console.log('faceImageData', this.faceImageData);
+    if (this.barcodeImageData && this.barcodePreviewOpened) {
+        console.log('faceImageData', this.barcodeImageData);
        
     } else {
         console.warn('Should Display Error');
     }
-
     this.errorPrompt = false;
   }
 
-  closeFaceCamera(type: string = 'continue'): void {
+  closeBarcodeCamera(type: string = 'continue'): void {
     // Stop camera streaming
     this._stopCamera();
-    this.faceCameraOpened.emit(false);
+    this.barcodeCameraOpened.emit(false);
   }
 
-/**
- * Close preview
- */
-  closeFacePreview() {
-    this.facePreviewOpened = false;
+  closeBarcodePreview() {
+    this.barcodePreviewOpened = false;
     this._startCamera();
   }
 
@@ -81,7 +83,7 @@ export class FaceScannerComponent implements AfterViewInit{
         return;
     }
 
-    const faceVideoElement: HTMLVideoElement = this.faceVideoElement.nativeElement;
+    const barcodeVideoElement: HTMLVideoElement = this.barcodeVideoElement.nativeElement;
 
     // Request access to the camera
     navigator.mediaDevices
@@ -93,7 +95,7 @@ export class FaceScannerComponent implements AfterViewInit{
         this.cameraStream = stream;
 
         // Set the video element source to the stream
-        faceVideoElement.srcObject = stream;
+        barcodeVideoElement.srcObject = stream;
     })
     .catch((error) => {
         setTimeout(() => {
@@ -106,8 +108,8 @@ export class FaceScannerComponent implements AfterViewInit{
 
   private _stopCamera(): void {
     // Get the video element reference
-    const faceVideoElement: HTMLVideoElement =
-        this.faceVideoElement.nativeElement;
+    const barcodeVideoElement: HTMLVideoElement =
+        this.barcodeVideoElement.nativeElement;
         
     // Stop the camera stream if it exists
     if (this.cameraStream) {
@@ -116,8 +118,6 @@ export class FaceScannerComponent implements AfterViewInit{
     }
 
     // Clear the srcObject property of the video element
-    this.faceVideoElement.srcObject = null;
+    this.barcodeVideoElement.srcObject = null;
   }
 }
-
-

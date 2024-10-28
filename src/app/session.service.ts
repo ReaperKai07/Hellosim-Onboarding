@@ -103,4 +103,19 @@ export class SessionService {
 
     // + + +
     
+    // -----------------------------------------------------------------------------------------------------
+    // @ Barcode Information
+    // -----------------------------------------------------------------------------------------------------
+
+    //Phone Barcode Code
+    private barcode: string; //Declare
+    setBarcode(type: string) { this.barcode = type; } //Set
+    getBarcode() { return this.barcode; } //Get
+
+    //New Phone Nunber
+    private phoneNum: string;
+    setPhoneNum(type: string) { this.phoneNum = type; } //Set
+    getPhoneNum() { return this.phoneNum; } //Get
+
+    // + + +
 }

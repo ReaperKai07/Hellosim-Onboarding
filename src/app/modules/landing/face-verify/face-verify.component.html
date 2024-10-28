@@ -3,7 +3,7 @@
         
         <!-- Title Card & Back Button-->
         <div class="bg-white shadow-md p-4 flex flex-row items-between top-0 h-14 sm:h-20 w-full"> 
-            <a href="/scanned-form" class="flex justify-center w-8 items-center"><mat-icon class="text-black text-2xl sm:text-6xl">arrow_back</mat-icon></a>
+            <a [routerLink]="['/scanned-form']" class="flex justify-center w-8 items-center"><mat-icon class="text-black text-2xl sm:text-6xl">arrow_back</mat-icon></a>
             <h2 class="col-span-4 text-lg font-bold w-full text-center sm:text-4xl">Register SIM Card</h2>
         </div>
 
@@ -25,7 +25,7 @@
 
             <!-- Confirm Button-->
             <div class="pt-4">                
-                <button mat-flat-button [routerLink]="['/supporting-doc']" class="w-full rounded-md sm:rounded-xl bg-[#ff0078] color: white; font-semibold py-5 sm:py-10">
+                <button mat-flat-button [routerLink]="['/face-detector']" class="w-full rounded-md sm:rounded-xl bg-[#ff0078] color: white; font-semibold py-5 sm:py-10">
                      <div class="w-full flex flex-row items-center tracking-tighter text-white">
                         <mat-icon [svgIcon]="'feather:thumbs-up'" class="sm:h-10 sm:w-10"></mat-icon>
                         <p class="pl-1 ms:pl-2 text-md sm:text-4xl">Confirm</p>

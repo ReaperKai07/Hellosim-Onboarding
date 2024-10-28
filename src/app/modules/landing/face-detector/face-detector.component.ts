@@ -23,6 +23,9 @@ export class FaceDetectorComponent implements OnInit {
   private videoWidth = window.innerWidth; //640
   private videoHeight = window.innerHeight; //480
   private cameraStream: MediaStream | null = null;
+  private isProcessing: boolean = true; // Add a flag to control processing
+  errorPrompt = false;
+  errorMessage = '';
 
   currentStep = 0; // Step Counter
   
@@ -133,46 +136,67 @@ export class FaceDetectorComponent implements OnInit {
         // Handle the instruction steps
         switch (this.currentStep) {
           case 0: // Turn left
-          if (this.headTurnLeft) {
-            this.complete = true;
-            alert('Left turn successful!');
-            setTimeout(() => {
-                this.complete = false; // Reset complete after 5 seconds
-            }, 5000);
-            this.currentStep++;
-            this.displayInstruction();
-          }
+            if (this.headTurnLeft) {
+              console.log("Left Side Face Accepted");
+              this.complete = true;
+              setTimeout(() => {
+                  this.complete = false; // Reset after 5 seconds
+                  if(this.currentStep == 0){
+                    this.currentStep++; //To next step
+                  }
+              }, 3000);
+            }
             break;
           case 1: // Turn right
-            if (this.headTurnRight) {
-              alert('Right turn successful!');
+            if (this.headTurnRight) {    
               console.log("Right Side Face Accepted");
-              this.currentStep++;
-              this.displayInstruction();
+              this.complete = true;
+              setTimeout(() => {
+                  this.complete = false; // Reset after 5 seconds
+                  if(this.currentStep == 1){
+                    this.currentStep++; //To next step
+                  }
+              }, 3000);
             }
             break;
           case 2: // Look forward
             if (headDirection === 'Forward') {
-              alert('Looking forward successful!');
               console.log("Front Face Accepted");
-              this.currentStep++;
-              this.displayInstruction();
+              this.complete = true;
+              setTimeout(() => {
+                  this.complete = false; // Reset after 5 seconds
+                  if(this.currentStep == 2){
+                    this.currentStep++; //To next step
+                  }
+              }, 3000);
             }
             break;
           case 3: // Blink three times
             if (this.blinkCount >= this.BLINK_REQUIRED) {
-              alert('Blinking successful! Verification complete.');
               console.log("Three Blick Accepted");
-              this.router.navigate(['/supporting-doc']);
-              return;
+              this.complete = true;
+              setTimeout(() => {
+                  this.complete = false; // Reset after 5 seconds
+                  if(this.currentStep == 3){
+                    this.currentStep++; //To next step
+                  }
+              }, 3000);
             }
+            break;
+          case 4:
+            console.log("Face-Detector Camera Should Closed");
+            setTimeout(() => {
+                  this.complete = false; // Reset after 5 seconds
+              }, 3000);
+            this.stopCamera();
             break;
 
         }
       }
     }
-    
+    console.log("Current Step ",this.currentStep);
     canvasCtx!.restore();
+    this.errorPrompt = false;
   }
 
   // Function to calculate Eye Aspect Ratio (EAR)
@@ -193,21 +217,6 @@ export class FaceDetectorComponent implements OnInit {
     return (A + B) / (2.0 * C);
   }
 
-  // Instruction set for the user
-  instructions: string[] = [
-    'Please turn left.',
-    'Please turn right.',
-    'Please look forward.',
-    'Please blink three times.'
-  ];
-
-  // Display instruction based on the current step
-  private displayInstruction() {
-    if (this.currentStep < this.instructions.length) {
-      alert(this.instructions[this.currentStep]);
-    }
-  }
-
   //Check and start camera
   private startCamera() {
     const videoElement = this.videoElement.nativeElement;
@@ -226,21 +235,25 @@ export class FaceDetectorComponent implements OnInit {
           };
         })
         .catch(err => {
-          console.error('Error accessing the camera: ', err);
+          this.errorPrompt = true;
+          this.errorMessage = err;
         });
     }
   }
 
   stopCamera() {
+    // Set the flag to false to stop processing
+    this.isProcessing = false;
+
     if (this.cameraStream) {
         const tracks = this.cameraStream.getTracks();
         tracks.forEach(track => track.stop()); // Stop each track
         this.cameraStream = null; // Clear the media stream reference
         this.videoElement.nativeElement.srcObject = null; // Clear the video source    
     }
-    
-    //Go to next page
-    this.router.navigate(['/face-verify']);
+
+    // Navigate to the next page
+    this.router.navigate(['/user-consent']);
   }
 
   //Start facemesh
@@ -251,13 +264,18 @@ export class FaceDetectorComponent implements OnInit {
 
   //Feed video to facemesh
   private processVideoFrame() {
+    if (!this.isProcessing) {
+        return; // Stop processing if the flag is false
+    }
+
     const videoElement = this.videoElement.nativeElement;
     if (videoElement.readyState >= 2) {
-      this.faceMesh.send({ image: videoElement });
+        this.faceMesh.send({ image: videoElement });
     }
 
     requestAnimationFrame(() => {
-      this.processVideoFrame();
+        this.processVideoFrame();
     });
   }
+
 }
