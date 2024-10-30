@@ -27,7 +27,7 @@ export class FaceDetectorComponent implements OnInit {
   errorPrompt = false;
   errorMessage = '';
 
-  currentStep = 0; // Step Counter
+  currentStep = 4; // Step Counter
   
   //Step check
   headTurnLeft = false;

@@ -22,14 +22,13 @@ export class BarcodeScannerComponent implements AfterViewInit{
   @ViewChild('barcodeVideo') barcodeVideoElement;
   @Output() barcodeCameraOpened = new EventEmitter<boolean>();
 
-  private cameraStream: MediaStream | null = null;
+  constructor( public sessionService: SessionService ) {}
 
+  private cameraStream: MediaStream | null = null;
   errorPrompt = false;
   errorMessage = '';
   barcodePreviewOpened: boolean = false;
   barcodeImageData: string = null;
-
-  constructor( public sessionService: SessionService ) {}
 
   ngAfterViewInit(): void {
     this._startCamera();

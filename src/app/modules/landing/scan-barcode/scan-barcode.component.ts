@@ -25,9 +25,7 @@ export class ScanBarcodeComponent implements OnInit{
 
   constructor( public sessionService: SessionService ) {}
   
-  ngOnInit(): void {
-
-  }
+  ngOnInit(): void {}
 
   barcodeCameraOpen: boolean = true; //true by default
 

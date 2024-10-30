@@ -9,9 +9,9 @@
 
         <!-- Page Content -->
         <div class="w-full h-full p-4 sm:p-12">
-            <h1 class="pb-4 text-lg font-bold sm:text-4xl">Verified and Approved</h1>
-            <div class="w-full h-100 rounded-lg bg-green-600">
-
+            <h1 class="pb-4 text-lg font-bold sm:text-4xl text-center">Face Comparison Verified</h1>
+            <div class="w-full h-auto rounded-lg bg-green-600 flex justify-center items-center">
+                <img [src]="sessionService.getFaceCompare()" alt="Barcode Image">
             </div>
             
             <!-- Face Button -->

@@ -2,6 +2,7 @@ import { NgStyle, CommonModule } from '@angular/common';
 import { AfterViewInit, Component, EventEmitter, Output, ViewChild, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { SessionService } from 'app/session.service';
 import { WebcamModule } from 'ngx-webcam';
 
 @Component({
@@ -21,8 +22,9 @@ export class FaceScannerComponent implements AfterViewInit{
   @ViewChild('faceVideo') faceVideoElement;
   @Output() faceCameraOpened = new EventEmitter<boolean>();
 
-  private cameraStream: MediaStream | null = null;
+  constructor( public sessionService: SessionService ) {}
 
+  private cameraStream: MediaStream | null = null;
   errorPrompt = false;
   errorMessage = '';
   facePreviewOpened: boolean = false;
@@ -41,6 +43,9 @@ export class FaceScannerComponent implements AfterViewInit{
         this.faceVideoElement.nativeElement, 0, 0, canvas.width, canvas.height
     );
     this.faceImageData = canvas.toDataURL('image/png');
+
+    //Store face image into SessionService
+    this.sessionService.setFaceCompare(this.faceImageData);
 
     this._stopCamera();
 
